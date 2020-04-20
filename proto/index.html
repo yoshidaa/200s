@@ -1,0 +1,72 @@
+﻿<html>
+<head>
+<title>Unlimited COUNT UP</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+  <meta name="mobile-web-app-capable" content="yes">
+  <script type="text/javascript" src="./js/keymap.js"></script>
+  <script type="text/javascript" src="./js/boardmap.js"></script>
+  <script type="text/javascript" src="./js/proto.js"></script>
+  <link rel="stylesheet" href="./css/stats.css" media="all">
+  <link rel="stylesheet" href="./css/phone_stats.css" media="only screen and (max-width:600px)">
+  <link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet'>
+  <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet'>
+</head>
+<body>
+
+<div id="loading">
+  <div class="spinner"></div>
+</div>
+
+<div id="main_board">
+  <table id="information">
+    <tr><td>Unlimited COUNT-UP</td></tr>
+    <tr><td id="round">1R / 9999R</td></tr>
+    <tr><td id="ppd">PPD: xx.xx</td></tr>
+  </table>
+
+  <div id="score">
+    <p id="score_value">0</p>
+  </div>
+
+  <table id="history">
+    <tr><td colspan="5" class="title">DART HISTORY</td></tr>
+    <tr><td class="round">1R</td><td></td><td></td><td></td><td class="total">0</td></tr>
+  </table>
+</div>
+
+<div id="message_board">
+  <div id="press_change_button">
+    <p>Press Change Button</p>
+  </div>
+</div>
+
+<div id="contents">
+  <div id="audios">
+    <audio id="T20"    preload="auto"> <source src="./sound/default/T20.mp3"> </audio>
+    <audio id="T19"    preload="auto"> <source src="./sound/default/T19.mp3"> </audio>
+    <audio id="T18"    preload="auto"> <source src="./sound/default/T18.mp3"> </audio>
+    <audio id="T17"    preload="auto"> <source src="./sound/default/T17.mp3"> </audio>
+    <audio id="T16"    preload="auto"> <source src="./sound/default/T16.mp3"> </audio>
+    <audio id="T15"    preload="auto"> <source src="./sound/default/T15.mp3"> </audio>
+    <audio id="start"  preload="auto"> <source src="./sound/default/start.mp3"> </audio>
+    <audio id="change" preload="auto"> <source src="./sound/default/change.wav"> </audio>
+    <audio id="s_bull" preload="auto"> <source src="./sound/default/s_bull.wav"> </audio>
+    <audio id="d_bull" preload="auto"> <source src="./sound/default/d_bull.wav"> </audio>
+    <audio id="single" preload="auto"> <source src="./sound/single.mp3"> </audio>
+    <audio id="double" preload="auto"> <source src="./sound/double.mp3"> </audio>
+    <audio id="triple" preload="auto"> <source src="./sound/triple.mp3"> </audio>
+  </div>
+
+  <div id="videos">
+    <video id="award_lowton"     preload="auto"> <source src="./movie/lowton.mp4"> </video>
+    <video id="award_hattrick"   preload="auto"> <source src="./movie/hattrick.mp4"> </video>
+    <video id="award_highton"    preload="auto"> <source src="./movie/highton.mp4"> </video>
+    <video id="award_black"      preload="auto"> <source src="./movie/black.mp4"> </video>
+    <video id="award_ton80"      preload="auto"> <source src="./movie/ton80.mp4"> </video>
+    <video id="award_whitehorse" preload="auto"> <source src="./movie/whitehorse.mp4"> </video>
+  </div>
+</div>
+
+</body>
+</html>
