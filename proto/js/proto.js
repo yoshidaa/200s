@@ -73,6 +73,7 @@ function update_tr( tr, data ){
       tr.cells[i+1].innerHTML = "";
     }
   }
+
   if( data["score"] > 150 ){
     sp_class = "highton";
   }else if( data["score"] >= 100 ){
@@ -81,6 +82,11 @@ function update_tr( tr, data ){
     sp_class = "normal";
   }
   tr.cells[ 4 ].innerHTML = '<span class="history_' + sp_class + '">' + data["score"] + '</span>';
+
+  num_darts = ( round_data.length - 1 ) * 3 + round_data[ round_data.length - 1 ]["areas"].length;
+  ppd = ( parseFloat( total_score ) / num_darts ).toFixed(2);
+
+  document.getElementById("ppd").innerHTML = "PPD: " + ppd;
 }
 
 function update_table( historyboard ){
