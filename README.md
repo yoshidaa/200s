@@ -15,12 +15,14 @@ codes for DARTSLIVE 200s
             * [初期化のときに入力するコードによって変わるのでは？](https://twitter.com/NAOKI_MIKUMA/status/1252665579464355841?s=20) 説が現時点では有力か
             * 公式の意図する使い方じゃないはずなので仕方ないか。。
 
-    * 効果音とかアワードムービーは権利的な問題で共有しにくい
-        * たとえばここで入手できるが、、、
+    * 効果音とかアワードムービーは権利的な問題でアップロードはできない
+        * が、たとえばここで参照することができる
             * LOWTON : https://youtu.be/oGPbkTGjPCo
             * HAT TRICK : https://youtu.be/0yVMvq5Xhmg
             * THREE IN THE BLACK : https://youtu.be/9eHstT3XeXQ
             * WHITE HORSE : https://youtu.be/xzFmGcdAGFw
             * HIGH TON : https://youtu.be/QmsNx2-Uf9I
             * TON80 : https://youtu.be/H_lfAwhnu68
-        * Bull や TRIPLE の音も YouTube の各種映像からがんばって抜き出した
+        * これを使えばアップロードなしで直接参照できるかもしれない。タイムラグが気になるが。。
+            * [iframe 組み込みの YouTube Player API リファレンス](https://developers.google.com/youtube/iframe_api_reference?hl=ja#Loading_a_Video_Player)
+        * Bull や TRIPLE の音も YouTube の各種映像からがんばって抜き出したが、、
