@@ -1,0 +1,83 @@
+<html>
+<head>
+<title>Menu</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+  <meta name="mobile-web-app-capable" content="yes">
+  <link rel="stylesheet" href="./css/main.css" media="all">
+  <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+  <script type="text/javascript" src="./js/menu.js"></script>
+  <link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet'>
+  <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet'>
+</head>
+<body>
+
+<div id="board_main" class="board">
+  <div id="panel_control" class="panel">
+    <p id="title">YDarts Main Menu</p>
+    <form action="./main/index.html" method="get">
+      <fieldset id="fs_category">
+        <legend>Category</legend>
+        <input id="rb_category_practice" type="radio" name="category" value="practice" ><label for="rb_category_practice">Practice</label>
+        <input id="rb_category_zeroone"  type="radio" name="category" value="zeroone"><label for="rb_category_zeroone">01</label>
+        <input id="rb_category_cricket"  type="radio" name="category" value="cricket"><label for="rb_category_cricket">Cricket</label>
+        <input id="rb_category_special"  type="radio" name="category" value="special" ><label for="rb_category_special">Special</label>
+      </fieldset>
+      <fieldset id="fs_game_practice" disabled>
+        <legend>Practice</legend>
+        <input id="rb_game_count_up"    type="radio" name="game" value="count_up">    <label for="rb_game_count_up">COUNT UP</label>
+        <input id="rb_game_cr_count_up" type="radio" name="game" value="cr_count_up" disabled> <label for="rb_game_big_bull">CR. COUNT UP</label>
+        <input id="rb_game_bull_shoot"  type="radio" name="game" value="bull_shoot">  <label for="rb_game_bull_shoot">BULL SHOOT</label>
+        <input id="rb_game_half_it"     type="radio" name="game" value="half_it" disabled>  <label for="rb_game_half_it">HALF IT</label>
+      </fieldset>
+      <fieldset id="fs_game_zeroone" disabled>
+        <legend>01 Game</legend>
+        <input id="rb_game_z0301" type="radio" name="game" value="z0301"><label for="rb_game_z0301">301</label>
+        <input id="rb_game_z0501" type="radio" name="game" value="z0501"><label for="rb_game_z0501">501</label>
+        <input id="rb_game_z0701" type="radio" name="game" value="z0701"><label for="rb_game_z0701">701</label>
+        <input id="rb_game_z0901" type="radio" name="game" value="z0901"><label for="rb_game_z0901">901</label>
+        <input id="rb_game_z1101" type="radio" name="game" value="z1101"><label for="rb_game_z1101">1101</label>
+        <input id="rb_game_z1501" type="radio" name="game" value="z1501"><label for="rb_game_z1501">1501</label>
+      </fieldset>
+      <fieldset id="fs_game_cricket" disabled>
+        <legend>Cricket</legend>
+        <input id="rb_game_standard_cricket"  type="radio" name="game" value="standard_cricket" disabled><label for="rb_game_standard_cricket">Standard</label>
+        <input id="rb_game_cutthroat_cricket" type="radio" name="game" value="cutthroat_cricket" disabled><label for="rb_game_cutthroat_cricket">Cut Throat</label>
+      </fieldset>
+      <fieldset id="fs_game_special" disabled>
+        <legend>Special</legend>
+        <input id="rb_game_big_bull"    type="radio" name="game" value="big_bull">  <label for="rb_game_big_bull">BIG BULL</label>
+<!--
+        <input id="rb_game_yamaguchi_a" type="radio" name="game" value="yamaguchi_a" disabled>  <label for="rb_game_yamaguchi_a">YAMAGUCHI A</label>
+        <input id="rb_game_yamaguchi_b" type="radio" name="game" value="yamaguchi_b" disabled>  <label for="rb_game_yamaguchi_b">YAMAGUCHI B</label>
+-->
+      </fieldset>
+      <fieldset id="fs_bull" disabled>
+        <legend>Bull Type</legend>
+        <input id="rb_bull_25_50" type="radio" name="bull" value="25_50"><label for="rb_bull_25_50">25/50</label>
+        <input id="rb_bull_50_50" type="radio" name="bull" value="50_50" checked ><label for="rb_bull_50_50">50/50</label>
+      </fieldset>
+      <fieldset id="fs_player" disabled>
+        <legend>Players</legend>
+        <input id="rb_player_1" type="radio" name="players" value="1"><label for="rb_player_1">1 Player</label>
+        <input id="rb_player_2" type="radio" name="players" value="2"><label for="rb_player_2">2 Players</label>
+        <input id="rb_player_3" type="radio" name="players" value="3"><label for="rb_player_3">3 Players</label>
+        <input id="rb_player_4" type="radio" name="players" value="4"><label for="rb_player_4">4 Players</label>
+      </fieldset>
+      <input type="submit" id="button_start" value="GAME ON" disabled>
+    </form>
+  </div>
+
+  <div id="panel_system_message" class="panel">
+    
+  </div>
+
+  <div id="button_config" class="button">
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+</div>
+
+</body>
+</html>
