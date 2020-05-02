@@ -1,72 +1,188 @@
 ﻿<html>
 <head>
-<title>Unlimited COUNT UP</title>
+<title>YDarts</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
   <meta name="mobile-web-app-capable" content="yes">
   <script type="text/javascript" src="./js/keymap.js"></script>
   <script type="text/javascript" src="./js/boardmap.js"></script>
-  <script type="text/javascript" src="./js/proto.js"></script>
-  <link rel="stylesheet" href="./css/stats.css" media="all">
-  <link rel="stylesheet" href="./css/phone_stats.css" media="only screen and (max-width:600px)">
+  <script type="text/javascript" src="./js/mg_score.js"></script>
+  <script type="text/javascript" src="./js/mg_panel.js"></script>
+  <script type="text/javascript" src="./js/main.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+  <link rel="stylesheet" href="./css/loading.css" media="all">
+  <link rel="stylesheet" href="./css/main.css" media="all">
+  <link rel="stylesheet" href="./css/board.css" media="all">
   <link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet'>
   <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet'>
 </head>
+
 <body>
 
-<div id="loading">
+<div id="board_loading">
   <div class="spinner"></div>
 </div>
 
-<div id="main_board">
-  <table id="information">
-    <tr><td>Unlimited COUNT-UP</td></tr>
-    <tr><td id="round">1R / 9999R</td></tr>
-    <tr><td id="ppd">PPD: 0.00</td></tr>
+<div id="board_main" class="board">
+  <table id="panel_information" class="panel">
+    <tr><td style="background-color: #003;" colspan="2" id="game_name">COUNT-UP</td></tr>
+    <tr><td style="background-color: #003;" colspan="2" id="round">ROUND 0/9999</td></tr>
+    <tr><td style="background-color: transparent; height: 5px;"></td></tr>
+    <tr><td colspan="2" id="player">Player 0</td></tr>
+    <tr><td colspan="2" id="stats">PPD: 0.00</td></tr>
+    <tr style="display: none"><td class="round">0R</td><td class="total">0</td></tr>
   </table>
 
-  <div id="score">
+  <div id="panel_main" class="panel">
     <p id="score_value">0</p>
   </div>
 
-  <table id="history">
-    <tr><td colspan="5" class="title">DART HISTORY</td></tr>
-    <tr><td class="round">1R</td><td></td><td></td><td></td><td class="total">0</td></tr>
+  <table id="panel_history" class="panel">
+    <tr><td colspan="4" class="title">DART HISTORY</td></tr>
+    <tr style="display: none"><td class="round">0R</td><td></td><td></td><td></td></tr>
   </table>
-</div>
 
-<div id="message_board">
-  <div id="press_change_button">
-    <p>Press Change Button</p>
+  <table id="panel_player_scores" class="panel">
+    <tr>
+      <td class="player1 title" id="player1title">Player 1</td>
+      <td class="player2 title" id="player2title">Player 2</td>
+      <td class="player3 title" id="player3title">Player 3</td>
+      <td class="player4 title" id="player4title">Player 4</td>
+    </tr>
+    <tr>
+      <td class="player1 score" id="player1score">0</td>
+      <td class="player2 score" id="player2score">0</td>
+      <td class="player3 score" id="player3score">0</td>
+      <td class="player4 score" id="player4score">0</td>
+    </tr>
+  </table>
+
+  <div id="panel_system_message" class="panel">
+    
+  </div>
+
+  <div id="button_menu" class="button">
+    <div></div>
+    <div></div>
+    <div></div>
   </div>
 </div>
 
-<div id="contents">
-  <div id="audios">
-    <audio id="T20"    preload="auto"> <source src="./sound/default/T20.mp3"> </audio>
-    <audio id="T19"    preload="auto"> <source src="./sound/default/T19.mp3"> </audio>
-    <audio id="T18"    preload="auto"> <source src="./sound/default/T18.mp3"> </audio>
-    <audio id="T17"    preload="auto"> <source src="./sound/default/T17.mp3"> </audio>
-    <audio id="T16"    preload="auto"> <source src="./sound/default/T16.mp3"> </audio>
-    <audio id="T15"    preload="auto"> <source src="./sound/default/T15.mp3"> </audio>
-    <audio id="start"  preload="auto"> <source src="./sound/default/start.mp3"> </audio>
-    <audio id="change" preload="auto"> <source src="./sound/default/change.wav"> </audio>
-    <audio id="s_bull" preload="auto"> <source src="./sound/default/s_bull.wav"> </audio>
-    <audio id="d_bull" preload="auto"> <source src="./sound/default/d_bull.wav"> </audio>
-    <audio id="single" preload="auto"> <source src="./sound/single.mp3"> </audio>
-    <audio id="double" preload="auto"> <source src="./sound/double.mp3"> </audio>
-    <audio id="triple" preload="auto"> <source src="./sound/triple.mp3"> </audio>
-  </div>
+<div id="board_change" class="board">
+  <p class="message">Press Change Button</p>
+</div>
 
-  <div id="videos">
-    <video id="award_lowton"     preload="auto"> <source src="./movie/lowton.mp4">    <source src="./movie/error.mp4"> </video>
-    <video id="award_hattrick"   preload="auto"> <source src="./movie/hattrick.mp4">  <source src="./movie/error.mp4"> </video>
-    <video id="award_highton"    preload="auto"> <source src="./movie/highton.mp4">   <source src="./movie/error.mp4"> </video>
-    <video id="award_black"      preload="auto"> <source src="./movie/black.mp4">     <source src="./movie/error.mp4"> </video>
-    <video id="award_ton80"      preload="auto"> <source src="./movie/ton80.mp4">     <source src="./movie/error.mp4"> </video>
-    <video id="award_whitehorse" preload="auto"> <source src="./movie/whitehorse.mp4">  <source src="./movie/error.mp4"> </video>
+<div id="board_round" class="board">
+  <p class="message">Round 0</p>
+</div>
+
+<div id="board_remove_darts" class="board">
+  <p class="message">Remove Darts</p>
+</div>
+
+<div id="board_bust" class="board">
+  <p class="message">Bust</p>
+</div>
+
+<div id="board_next" class="board">
+  <p class="message">Next Player<br />Player 1</p>
+</div>
+
+<div id="board_result" class="board">
+  <p>Result</p>
+
+  <table id="panel_result" class="panel">
+    <tr id="tr_result_winner">
+      <td id="result_winner_title" style="width: 20%;"></td>
+      <td id="result_player1winner"></td>
+      <td id="result_player2winner"></td>
+      <td id="result_player3winner"></td>
+      <td id="result_player4winner"></td>
+    </tr>
+    <tr id="tr_result_player">
+      <td id="result_player_title">Player</td>
+      <td class="player1 title" id="result_player1player">Player 1</td>
+      <td class="player2 title" id="result_player2player">Player 2</td>
+      <td class="player3 title" id="result_player3player">Player 3</td>
+      <td class="player4 title" id="result_player4player">Player 4</td>
+    </tr>
+    <tr id="tr_result_score">
+      <td id="result_score_title">POINT</td>
+      <td class="player1 score" id="result_player1score">0</td>
+      <td class="player2 score" id="result_player2score">0</td>
+      <td class="player3 score" id="result_player3score">0</td>
+      <td class="player4 score" id="result_player4score">0</td>
+    </tr>
+    <tr id="tr_result_stats">
+      <td id="result_stats_title">PPD</td>
+      <td class="player1 score" id="result_player1stats">0</td>
+      <td class="player2 score" id="result_player2stats">0</td>
+      <td class="player3 score" id="result_player3stats">0</td>
+      <td class="player4 score" id="result_player4stats">0</td>
+    </tr>
+    <tr id="tr_result_rating">
+      <td id="result_rating_title">Rating</td>
+      <td class="player1 score" id="result_player1rating"></td>
+      <td class="player2 score" id="result_player2rating"></td>
+      <td class="player3 score" id="result_player3rating"></td>
+      <td class="player4 score" id="result_player4rating"></td>
+    </tr>
+    <tr id="tr_result_awards">
+      <td id="result_awards_title">AWARDS</td>
+      <td class="player1 score" id="result_player1awards"></td>
+      <td class="player2 score" id="result_player2awards"></td>
+      <td class="player3 score" id="result_player3awards"></td>
+      <td class="player4 score" id="result_player4awards"></td>
+    </tr>
+  </table>
+
+  <div id="panel_control" class="panel">
+    <input type="button" id="button_back" value="Main Menu"> <input type="button" id="button_retry" value="Retry">
   </div>
+</div>
+
+<div id="board_menu" class="board">
+  <p class="menu_title">
+    YDarts Menu
+  </p>
+  <ul>
+    <li id="bm_unthrow">UNTHROW DART</li>
+    <li id="bm_endgame">END GAME</li>
+    <li id="bm_return">RETURN TO GAME</li>
+  </ul>
 </div>
 
 </body>
+
+<div id="board_audios">
+  <audio id="dummy_audio"></audio>
+  <audio id="T20"     preload="auto"> <source src="./sound/phoenix/T20.mp3"> </audio>
+  <audio id="T19"     preload="auto"> <source src="./sound/phoenix/T19.mp3"> </audio>
+  <audio id="T18"     preload="auto"> <source src="./sound/phoenix/T18.mp3"> </audio>
+  <audio id="T17"     preload="auto"> <source src="./sound/phoenix/T17.mp3"> </audio>
+  <audio id="T16"     preload="auto"> <source src="./sound/phoenix/T16.mp3"> </audio>
+  <audio id="T15"     preload="auto"> <source src="./sound/phoenix/T15.mp3"> </audio>
+  <audio id="start"   preload="auto"> <source src="./sound/phoenix/start.mp3"> </audio>
+  <audio id="startF"  preload="auto"> <source src="./sound/phoenix/round_start.mp3"> </audio>
+  <audio id="startFF" preload="auto"> <source src="./sound/phoenix/round_start_final.mp3"> </audio>
+  <audio id="out"     preload="auto"> <source src="./sound/phoenix/out.mp3"> </audio>
+  <audio id="change"  preload="auto"> <source src="./sound/phoenix/change.mp3"> </audio>
+  <audio id="s_bull"  preload="auto"> <source src="./sound/phoenix/s_bull.mp3"> </audio>
+  <audio id="d_bull"  preload="auto"> <source src="./sound/phoenix/d_bull.mp3"> </audio>
+  <audio id="u_bull"  preload="auto"> <source src="./sound/original/thunder.mp3"> </audio>
+  <audio id="bust"    preload="auto"> <source src="./sound/original/bust.mp3"> </audio>
+  <audio id="single"  preload="auto"> <source src="./sound/phoenix/cu_single.mp3"> </audio>
+  <audio id="double"  preload="auto"> <source src="./sound/phoenix/double.mp3"> </audio>
+  <audio id="triple"  preload="auto"> <source src="./sound/phoenix/triple.mp3"> </audio>
+</div>
+
+<div id="board_videos" class="board">
+  <video id="award_lowton"     preload="auto"> <source src="./movie/lowton.mp4">     <source src="./movie/error.mp4"> </video>
+  <video id="award_hattrick"   preload="auto"> <source src="./movie/hattrick.mp4">   <source src="./movie/error.mp4"> </video>
+  <video id="award_highton"    preload="auto"> <source src="./movie/highton.mp4">    <source src="./movie/error.mp4"> </video>
+  <video id="award_black"      preload="auto"> <source src="./movie/black.mp4">      <source src="./movie/error.mp4"> </video>
+  <video id="award_ton80"      preload="auto"> <source src="./movie/ton80.mp4">      <source src="./movie/error.mp4"> </video>
+  <video id="award_whitehorse" preload="auto"> <source src="./movie/whitehorse.mp4"> <source src="./movie/error.mp4"> </video>
+</div>
+
 </html>
