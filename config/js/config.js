@@ -31,9 +31,9 @@ window.onload = function() {
       count += 1;
       if( count == keys.length ){
         document.getElementById("panel_main").innerHTML = "Complete!";
-        Cookies.set( "boardmap", boardmap );
-        location.reload();
-        return
+        Cookies.set( "boardmap", boardmap, { expires: 365 } );
+        document.getElementById("panel_status").innerHTML = "Config Status: OK";
+        return ;
       }
       setTimeout( function(){ configurable = true }, 500 );
       next_key = comment[keys[count]] || keys[count] ;
