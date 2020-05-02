@@ -3,8 +3,6 @@ function sleep(ms) {
 }
 
 window.onload = function() {
-  document.body.requestFullscreen();
-
   if( !Cookies.get( "boardmap" ) ){
     document.getElementById("panel_system_message").innerHTML = "Boardmap is not set.<br />Please set from <a href=\"./config/index.html\">Configuration Page</a>.";
     document.getElementById("panel_system_message").style.visibility = "visible";
