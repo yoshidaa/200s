@@ -1,0 +1,215 @@
+/* -----------------------------------------------------------------
+ *  Board
+ * -------------------------------------------------------------- */
+div.board{
+  visibility: hidden;
+  position:   fixed;
+  top:        0;
+  left:       0;
+  width:      100%;
+  height:     100%;
+  text-align: center;
+  padding:    8px;
+}
+
+div.board p.message{
+  position: absolute;
+  top:      0;
+  bottom:   0;
+  width:    100%;
+  margin:   auto;
+}
+
+div#board_main   {                                                     z-index: 0; }
+div#board_change { color: #fff; background-color: #333; opacity: 0.8;  z-index: 1; }
+div#board_round  { color: #ff0; background-color: #000; opacity: 0.9;  z-index: 1; }
+div#board_next   { color: #ff0; background-color: #000; opacity: 0.9;  z-index: 1; }
+
+div#board_menu   { color: #ff0; background-color: #000; opacity: 0.95; z-index: 2; }
+div#board_menu   { width: 80%; height: 80%; left: 10%; top: initial; bottom: 10%; }
+
+div#board_bust { color: #0cf; background-color: #000; opacity: 0.9;  z-index: 1; }
+/* div#board_bust { visibility: visible ; }
+ */
+
+div#panel_system_message {
+  width: 60%;
+  height: 10%;
+  left: 20%;
+  bottom: 20%;
+  font-size: 25px;
+  color: #fcc;
+}
+
+div#board_bust p{
+  height: 100%;
+  margin-left: -10%;
+  font-size: 700px;
+  text-shadow: 10px 10px 20px #336; 
+  transform: rotate(-25deg);
+}
+
+div#button_menu{
+  position: fixed;
+  width: 64px;
+  height: 58px; padding-top: 13px;
+  border-radius: 5px;
+  right: 20px;
+  bottom: 20px;
+  border: 2px solid #ccc;
+}
+
+div#button_menu:hover{
+  background-color: #fff;
+}
+
+div#button_menu div{
+  position: relative;
+  left: 0;
+  height: 8px;
+  width: 50px;
+  margin-bottom: 10px;
+  background-color: #999;
+  border: 2px; solid #999;
+  border-radius: 2px;
+  display: inline-block;
+  box-sizing: border-box;
+}
+
+div#board_videos {                                                    z-index: 9; }
+div#board_audios { display: none; }
+div#board_remove_darts { color: #ff0; background-color: #000; opacity: 0.9; z-index: 1; }
+
+div#board_result { color: #ff0; background-color: #000; opacity: 0.95;      z-index: 2; }
+/*
+ div#board_result { visibility: visible; }
+ */
+
+div#board_change       p{ height: 200px; font-size: 70px; }
+div#board_next         p{ height: 300px; font-size: 70px; }
+div#board_round        p{ height: 300px; font-size: 150px; }
+div#board_result       p{                font-size: 70px; text-align: center; color: #ccc; }
+div#board_remove_darts p{ height: 200px; font-size: 90px; }
+
+@keyframes slide_i {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(0); }
+}
+
+@keyframes slide_o {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(100%); }
+}
+
+@keyframes fade_i {
+  0%   { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes fade_o {
+  0%   { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+div#board_videos video {
+  visibility: hidden;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0px;
+  padding: 0px;
+}
+
+/* -----------------------------------------------------------------
+ *  Panel
+ * -------------------------------------------------------------- */
+.panel{
+  position: fixed;
+}
+
+div#panel_main{
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  font-size: 380px;
+  top: 0;
+  bottom: 0;
+  margin: 0;
+  padding: 0px;
+}
+
+div#panel_main p{
+  font-family: 'Lato';
+  text-shadow: 10px 10px 20px #333; 
+  position: absolute;
+  line-height: 100%;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  height: 60%;
+  margin: auto;
+}
+
+div#panel_winner{
+  width: 100%;
+  top: 300px;
+}
+
+div#panel_control{
+  width: 100%;
+  height: 10%;
+  bottom: 10%;
+}
+
+div#panel_control input{
+  width: 300px;
+  height: 50px;
+  line-height: 50px;
+  margin: 30px;
+  color: #333;
+  background-color: #ccc;
+  border: 2px solid #333;
+  border-radius: 10px;
+  font-size: 30px;
+}
+
+
+div#board_menu p.menu_title{
+  display: inline-block;
+  font-size: x-large;
+  background-color: #2055AB;
+  color: #fff;
+  line-height: 200%;
+  width: 100%;
+}
+
+div#board_menu ul{
+  position: relative;
+  margin:0px;
+  padding:0px;
+  height: 50%;
+  list-style: none;
+  text-align: center;
+}
+
+div#board_menu ul li{
+  font-family: 'Lato';
+  box-sizing: border-box;
+  display: inline-block;
+  line-height: 120%;
+  width: 80%;
+  color: #333;
+  border-radius: 10px;
+  font-size: 48px;
+  background-color: #ccc;
+  border: 1px solid #ccc;
+  margin: 20px auto;
+  padding: 5px;
+}
+
+div#board_menu ul li:hover{
+  color: #ccc;
+  background-color: #333;
+}
