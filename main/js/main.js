@@ -289,7 +289,6 @@ window.onload = function() {
 
   if( Cookies.get( "boardmap" ) ){
     boardmap = JSON.parse( Cookies.get( "boardmap" ) );
-    if( boardmap["\\n"] == undefined ) boardmap["\\n"] = 13 ;
   }else{
     boardmap = boardmap_org ;
     document.getElementById("panel_system_message").innerHTML = "Boardmap is not set.<br />Please set from <a href=\"../config/index.html\">Configuration Page</a>.";
@@ -301,6 +300,8 @@ window.onload = function() {
   panel_mg  = new PanelManager();
   board_mg  = new BoardManager();
   system_mg = new SystemManager();
+
+  document.title = score_mg.game_name + " - " + document.title;
 
   document.getElementById("bm_unthrow").onclick    = system_mg.dart_unthrow ;
   document.getElementById("bm_endgame").onclick    = function(){ window.location.href = '../index.html' } ;
