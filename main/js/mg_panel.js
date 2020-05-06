@@ -33,11 +33,23 @@ class PanelManager {
 
   update( score_mg, latest=false ){
     this.update_wallpaper( score_mg );
+    this.update_game_message( score_mg );
     this.update_dart_history( score_mg, latest );
     this.update_score_history( score_mg, latest );
     this.update_info( score_mg );
     this.update_score( score_mg );
     this.update_stats( score_mg );
+  }
+
+  update_game_message( score_mg ){
+    var panel = document.getElementById("panel_game_message");
+    var message = score_mg.game_message();
+    if( message == "" ){
+      panel.style.display = "none";
+    }else{
+      panel.innerHTML = "<p>" + message + "</p>";
+      panel.style.display = "block";
+    }
   }
 
   update_wallpaper( score_mg ){
@@ -51,7 +63,7 @@ class PanelManager {
   }
 
   update_stats( score_mg ){
-    document.getElementById("stats").innerHTML = "PPD: " + score_mg.total_stats( score_mg.current_player );
+    document.getElementById("stats").innerHTML = score_mg.stats_name + ": " + score_mg.total_stats( score_mg.current_player );
   }
 
   update_score( score_mg ){
@@ -79,17 +91,25 @@ class PanelManager {
       var td_score  = document.getElementById("result_player"+i+"score");
       var td_stats  = document.getElementById("result_player"+i+"stats");
       var td_awards = document.getElementById("result_player"+i+"awards");
+      document.getElementById("result_stats_title").innerHTML = score_mg.stats_name ;
 
       td_winner.innerHTML = score_mg.is_top_score(i-1) ? "<img src=\"img/crown.png\" />" : "";
       td_score.innerHTML = score_mg.total_score(i-1);
       td_stats.innerHTML = score_mg.total_stats(i-1);
       var awards = score_mg.total_awards(i-1);
       var awards_str = [];
-      [ "hattrick", "lowton", "highton", "ton80", "black", "whitehorse" ].forEach(function( aname ){
+      [ "hattrick", "lowton", "highton", "ton80", "black", "bed",
+        "9mark", "8mark", "7mark", "6mark", "5mark", "whitehorse" ].forEach(function( aname ){
         var title = "HAT TRICK";
         if( aname == "lowton"     ){ title = "LOW TON"; }
         if( aname == "highton"    ){ title = "HIGH TON"; }
         if( aname == "ton80"      ){ title = "TON80"; }
+        if( aname == "bed"        ){ title = "3 IN A BED"; }
+        if( aname == "9mark"      ){ title = "9MARK"; }
+        if( aname == "8mark"      ){ title = "8MARK"; }
+        if( aname == "7mark"      ){ title = "7MARK"; }
+        if( aname == "6mark"      ){ title = "6MARK"; }
+        if( aname == "5mark"      ){ title = "5MARK"; }
         if( aname == "black"      ){ title = "3 IN THE BLACK"; }
         if( aname == "whitehorse" ){ title = "WHITE HORSE"; }
         if( awards[aname] ){

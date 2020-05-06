@@ -28,18 +28,7 @@ div#board_next   { color: #ff0; background-color: #000; opacity: 0.9;  z-index: 
 div#board_menu   { color: #ff0; background-color: #000; opacity: 0.95; z-index: 2; }
 div#board_menu   { width: 80%; height: 80%; left: 10%; top: initial; bottom: 10%; }
 
-div#board_bust { color: #0cf; background-color: #000; opacity: 0.9;  z-index: 1; }
-/* div#board_bust { visibility: visible ; }
- */
-
-div#panel_system_message {
-  width: 60%;
-  height: 10%;
-  left: 20%;
-  bottom: 20%;
-  font-size: 25px;
-  color: #fcc;
-}
+div#board_bust   { color: #0cf; background-color: #000; opacity: 0.9;  z-index: 1; }
 
 div#board_bust p{
   height: 100%;
@@ -81,8 +70,7 @@ div#board_audios { display: none; }
 div#board_remove_darts { color: #ff0; background-color: #000; opacity: 0.9; z-index: 1; }
 
 div#board_result { color: #ff0; background-color: #000; opacity: 0.95;      z-index: 2; }
-/*
- div#board_result { visibility: visible; }
+/* div#board_result { visibility: visible }
  */
 
 div#board_change       p{ height: 200px; font-size: 70px; }
@@ -121,6 +109,11 @@ div#board_videos video {
   margin: 0px;
   padding: 0px;
 }
+
+div#board_nmark{ background-color: #000; opacity: 0.9;  z-index: 1; }
+div#board_nmark table{ width: 100%; height: 90%; background-color: transparent; border: 0; }
+div#board_nmark tr{ border: 0; }
+div#board_nmark td{ border: 0; padding: 0; margin: 0; background-color: transparent; width: 33%; font-size: 300px }
 
 /* -----------------------------------------------------------------
  *  Panel
@@ -212,4 +205,37 @@ div#board_menu ul li{
 div#board_menu ul li:hover{
   color: #ccc;
   background-color: #333;
+}
+
+div#panel_system_message {
+  width: 60%;
+  height: 10%;
+  left: 20%;
+  bottom: 20%;
+  font-size: 25px;
+  color: #fcc;
+}
+
+div#panel_game_message {
+  background-color: #333;
+  padding-top: 5px;
+  color: #ccc;
+  opacity: 0.9;
+  width: 60%;
+  height: 70px;
+  left: 20%;
+  top: 10px;
+}
+
+div#panel_game_message p{
+  margin: auto;
+  line-height: 70px;
+  vertical-align: middle;
+  height: 70px;
+  font-size: 40px;
+}
+
+div#panel_game_message strong{
+  color: #ff6;
+  font-size: 60px;
 }

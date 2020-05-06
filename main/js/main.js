@@ -10,12 +10,16 @@ class SystemGlue {
     var target = key;
     if( key == "CH" ){ return "change" ; }
 
-    if( game == "count_up" || game == "zeroone" ){
-      if( key == "SB" ){ target = "s_bull"; }
-      else if( key == "DB" ){ target = "d_bull"; }
-      else if( key[1] == "S" ){ target = "single"; }
-      else if( key[0] == "D" ){ target = "double"; }
-      else if( key[0] == "T" && ( Number(key.substr(1,2)) <= 14 ) ){ target = "triple"; }
+    if( game == "count_up" || game == "cr_count_up" || game == "zeroone" ){
+      if( score_mg.is_valid_throw( key, score_mg.current_round ) ){
+        if( key == "SB" ){ target = "s_bull"; }
+        else if( key == "DB" ){ target = "d_bull"; }
+        else if( key[1] == "S" ){ target = "single"; }
+        else if( key[0] == "D" ){ target = "double"; }
+        else if( key[0] == "T" && ( Number(key.substr(1,2)) <= 14 ) ){ target = "triple"; }
+      }else{
+        target = "dummy" ;
+      }
     }else if( game == "big_bull" ){
       if( key == "SB" ){ target = "d_bull"; }
       else if( key == "DB" ){ target = "u_bull"; }
@@ -26,7 +30,7 @@ class SystemGlue {
     }else if( game == "bull_shoot" ){
       if( key == "SB" ){ target = "s_bull"; }
       else if( key == "DB" ){ target = "d_bull"; }
-      else { target = "dummy_audio" ; }
+      else { target = "dummy" ; }
     }
     return target;
   }
@@ -56,21 +60,31 @@ class SystemGlue {
 // -----------------------------------------------------------------
 class MediaManager {
   constructor(){
+    load_media();
     this.playing_award = null;
   }
 
   play_sound( target ){
-    document.getElementById(target).play();
+    document.getElementById("sound_" + target).play();
   }
 
   play_award( award_name ){
     this.playing_award = "award_" + award_name;
-    document.getElementById(this.playing_award).play();
+    var target = document.getElementById(this.playing_award);
+    if( target.tagName == "VIDEO" ){
+      board_mg.hide("board_main");
+    }else{
+      
+    }
+    target.play();
   }
 
   stop_award(){
-    document.getElementById(this.playing_award).pause();
-    document.getElementById(this.playing_award).currentTime = 0;
+    var target = document.getElementById(this.playing_award);
+    if( target.tagName == "VIDEO" ){
+      target.pause();
+      target.currentTime = 0;
+    }
     this.playing_award = null;
   }
 }
@@ -119,6 +133,25 @@ class BoardManager {
     await sleep(1000);
     board.style.animation = "slide_o 0.3s";
     board.addEventListener('animationend', this.hide_board_next);
+  }
+
+  async display_mark_award(){
+    var marks = score_mg.current_marks ;
+    var tds = document.getElementById("board_nmark").getElementsByTagName("td");
+    board_mg.show("board_nmark");
+    for( var i = 0 ; i < 3 ; i++ ){
+      await sleep(700);
+      if( marks[i] != 0 ){
+        media_mg.play_sound("mark");
+        tds[i].innerHTML = "<img src=\"img/mark" + marks[i] + ".png\" />";
+      }
+    }
+    await sleep(1000);
+    board_mg.hide("board_nmark");
+    system_mg.stop_award();
+    for( var i = 0 ; i < 3 ; i++ ){
+      tds[i].innerHTML = "";
+    }
   }
 
   async display_bust(){
@@ -187,7 +220,9 @@ class SystemManager {
   play_award(){
     var award_name = score_mg.check_award();
     if( award_name != null ){
-      board_mg.hide("board_main");
+      if( document.getElementById( "award_" + award_name ).tagName != "VIDEO" ){
+        this.wait_award_ended = true ;
+      }
       media_mg.play_award( award_name );
       board_mg.show( media_mg.playing_award );
     }
@@ -198,10 +233,12 @@ class SystemManager {
     this.wait_award_ended = false;
     board_mg.hide( media_mg.playing_award );
     media_mg.stop_award();
-    board_mg.show("board_main");
     if( this.check_end() ){
       this.game_over();
+    }else{
+      board_mg.show("board_change");
     }
+    board_mg.show("board_main");
   }
 
   game_over(){
@@ -227,7 +264,7 @@ class SystemManager {
   }
 
   dart_update( key ){
-    media_mg.play_sound( SystemGlue.key_to_sound( key, score_mg.game_type, score_mg.bull_type ) );
+    media_mg.play_sound( SystemGlue.key_to_sound( key, score_mg.game, score_mg.bull_type ) );
     score_mg.update( key );
     panel_mg.update( score_mg, true );
   }
@@ -252,8 +289,10 @@ class SystemManager {
           if( this.wait_award_ended == false ){ this.game_over(); }
           return ;
         }else if( score_mg.thrown_darts == 3 ){
-          this.play_award();
-          board_mg.show("board_change");
+          var award_played = this.play_award();
+          if( !award_played ){
+            board_mg.show("board_change");
+          }
         }
       }
       await sleep(700);
@@ -312,11 +351,16 @@ window.onload = function() {
   document.getElementById("button_retry").onclick  = function(){ location.reload(); };
   document.getElementById("button_back").onclick   = function(){ window.location.href = '../index.html' } ;
 
-  [ "hattrick", "lowton", "highton", "ton80", "black", "whitehorse" ].forEach(function( aname ){
+  [ "hattrick", "lowton", "highton", "ton80", "black", "bed", "9mark", "whitehorse" ].forEach(function( aname ){
     document.getElementById("award_" + aname).addEventListener( "ended", function() {
       system_mg.stop_award();
     });
   });
+
+  document.getElementById("award_5mark").play = board_mg.display_mark_award;
+  document.getElementById("award_6mark").play = board_mg.display_mark_award;
+  document.getElementById("award_7mark").play = board_mg.display_mark_award;
+  document.getElementById("award_8mark").play = board_mg.display_mark_award;
 
   document.addEventListener('keypress', function(e) {
     for (let key in boardmap) {

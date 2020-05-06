@@ -6,8 +6,10 @@
   <meta name="mobile-web-app-capable" content="yes">
   <script type="text/javascript" src="./js/keymap.js"></script>
   <script type="text/javascript" src="./js/boardmap.js"></script>
+  <script type="text/javascript" src="./js/area.js"></script>
   <script type="text/javascript" src="./js/mg_score.js"></script>
   <script type="text/javascript" src="./js/mg_panel.js"></script>
+  <script type="text/javascript" src="./js/media.js"></script>
   <script type="text/javascript" src="./js/main.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
   <link rel="stylesheet" href="./css/loading.css" media="all">
@@ -32,6 +34,10 @@
     <tr><td colspan="2" id="stats">PPD: 0.00</td></tr>
     <tr style="display: none"><td class="round">0R</td><td class="total">0</td></tr>
   </table>
+
+  <div id="panel_game_message" class="panel">
+    <p>SCORE PREDICTION <strong>1200</strong></p>
+  </div>
 
   <div id="panel_main" class="panel">
     <p id="score_value">0</p>
@@ -152,37 +158,50 @@
   </ul>
 </div>
 
+<div id="board_nmark" class="board">
+  <table>
+    <tr><td></td><td></td><td></td></tr>
+  </table>
+</div>
+
 </body>
 
 <div id="board_audios">
-  <audio id="dummy_audio"></audio>
-  <audio id="T20"     preload="auto"> <source src="/200s_media/sound/T20.mp3"> </audio>
-  <audio id="T19"     preload="auto"> <source src="/200s_media/sound/T19.mp3"> </audio>
-  <audio id="T18"     preload="auto"> <source src="/200s_media/sound/T18.mp3"> </audio>
-  <audio id="T17"     preload="auto"> <source src="/200s_media/sound/T17.mp3"> </audio>
-  <audio id="T16"     preload="auto"> <source src="/200s_media/sound/T16.mp3"> </audio>
-  <audio id="T15"     preload="auto"> <source src="/200s_media/sound/T15.mp3"> </audio>
-  <audio id="start"   preload="auto"> <source src="/200s_media/sound/start.mp3"> </audio>
-  <audio id="startF"  preload="auto"> <source src="/200s_media/sound/round_start.mp3"> </audio>
-  <audio id="startFF" preload="auto"> <source src="/200s_media/sound/round_start_final.mp3"> </audio>
-  <audio id="out"     preload="auto"> <source src="/200s_media/sound/out.mp3"> </audio>
-  <audio id="change"  preload="auto"> <source src="/200s_media/sound/change.mp3"> </audio>
-  <audio id="s_bull"  preload="auto"> <source src="/200s_media/sound/s_bull.mp3"> </audio>
-  <audio id="d_bull"  preload="auto"> <source src="/200s_media/sound/d_bull.mp3"> </audio>
-  <audio id="u_bull"  preload="auto"> <source src="/200s_media/sound/u_bull.mp3"> </audio>
-  <audio id="bust"    preload="auto"> <source src="/200s_media/sound/bust.mp3"> </audio>
-  <audio id="single"  preload="auto"> <source src="/200s_media/sound/single.mp3"> </audio>
-  <audio id="double"  preload="auto"> <source src="/200s_media/sound/double.mp3"> </audio>
-  <audio id="triple"  preload="auto"> <source src="/200s_media/sound/triple.mp3"> </audio>
+  <audio id="sound_dummy">                  </audio>
+  <audio id="sound_T20"     preload="auto"> </audio>
+  <audio id="sound_T19"     preload="auto"> </audio>
+  <audio id="sound_T18"     preload="auto"> </audio>
+  <audio id="sound_T17"     preload="auto"> </audio>
+  <audio id="sound_T16"     preload="auto"> </audio>
+  <audio id="sound_T15"     preload="auto"> </audio>
+  <audio id="sound_start"   preload="auto"> </audio>
+  <audio id="sound_startF"  preload="auto"> </audio>
+  <audio id="sound_startFF" preload="auto"> </audio>
+  <audio id="sound_out"     preload="auto"> </audio>
+  <audio id="sound_change"  preload="auto"> </audio>
+  <audio id="sound_s_bull"  preload="auto"> </audio>
+  <audio id="sound_d_bull"  preload="auto"> </audio>
+  <audio id="sound_u_bull"  preload="auto"> </audio>
+  <audio id="sound_bust"    preload="auto"> </audio>
+  <audio id="sound_mark"    preload="auto"> </audio>
+  <audio id="sound_single"  preload="auto"> </audio>
+  <audio id="sound_double"  preload="auto"> </audio>
+  <audio id="sound_triple"  preload="auto"> </audio>
 </div>
 
 <div id="board_videos" class="board">
-  <video id="award_lowton"     preload="auto"> <source src="/200s_media/lowton.mp4">     <source src="/200s_media/error.mp4"> </video>
-  <video id="award_hattrick"   preload="auto"> <source src="/200s_media/hattrick.mp4">   <source src="/200s_media/error.mp4"> </video>
-  <video id="award_highton"    preload="auto"> <source src="/200s_media/highton.mp4">    <source src="/200s_media/error.mp4"> </video>
-  <video id="award_black"      preload="auto"> <source src="/200s_media/black.mp4">      <source src="/200s_media/error.mp4"> </video>
-  <video id="award_ton80"      preload="auto"> <source src="/200s_media/ton80.mp4">      <source src="/200s_media/error.mp4"> </video>
-  <video id="award_whitehorse" preload="auto"> <source src="/200s_media/whitehorse.mp4"> <source src="/200s_media/error.mp4"> </video>
+  <video id="award_lowton"     preload="auto"> </video>
+  <video id="award_hattrick"   preload="auto"> </video>
+  <video id="award_highton"    preload="auto"> </video>
+  <video id="award_black"      preload="auto"> </video>
+  <video id="award_ton80"      preload="auto"> </video>
+  <video id="award_bed"        preload="auto"> </video>
+  <video id="award_9mark"      preload="auto"> </video>
+  <video id="award_whitehorse" preload="auto"> </video>
+  <div id="award_8mark"></div>
+  <div id="award_7mark"></div>
+  <div id="award_6mark"></div>
+  <div id="award_5mark"></div>
 </div>
 
 </html>

@@ -1,33 +1,93 @@
 ﻿# YDarts with DARTSLIVE 200s
 
-* これは何？
-    * DARTSLIVE 200s が Bluetooth のキーボードになっていることを利用して作った Phoenix Darts ライクな見た目のダーツアプリです
-    * 権利上の理由によりサウンドやアワードムービーは再生されません
+## これは何？
 
-* 試してみるには
-    * DARTSLIVE 200s を起動した状態でブラウザを開き、下記のページにアクセスしてください
-        * https://yoshidaa.github.io/200s/
-        * Android の場合は↑をホーム画面に追加すると全画面で遊べます
-    * 初回プレイ時にはボードのマッピングの設定をする必要があります
-    * とりあえず COUNT UP と BIG BULL と 01 (SINGLE OUTのみ) がプレイ可能です
-    * 横幅 1280 のタブレット前提で作っているので、環境によっては表示がおかしいかもしれません
+DARTSLIVE 200s が Bluetooth のキーボードになっていることを利用して作った Phoenix Darts ライクな見た目のダーツアプリです
 
-* 技術的なメモ
-    * この後の実装は未定です
-    * DARTSLIVE 200s はキーボードとして認識されている
-        * 場所によって異なるキー入力が端末に送信されるしくみ
-        * 各セグメントと入力されるキーコードの対応は機器認証時に入力される 4 桁のコードによって異なるようだ
-            * [初期化のときに入力するコードによって変わるのでは？](https://twitter.com/NAOKI_MIKUMA/status/1252665579464355841?s=20) 説が有力
-    * 効果音とかアワードムービーは権利上の問題で使いにくい
-        * たとえばここで参照することができる
-            * LOWTON : https://youtu.be/oGPbkTGjPCo
-            * HAT TRICK : https://youtu.be/0yVMvq5Xhmg
-            * THREE IN THE BLACK : https://youtu.be/9eHstT3XeXQ
-            * WHITE HORSE : https://youtu.be/xzFmGcdAGFw
-            * HIGH TON : https://youtu.be/QmsNx2-Uf9I
-            * TON80 : https://youtu.be/H_lfAwhnu68
-        * これを使えばアップロードなしで直接参照できるかもしれない。タイムラグが気になるが。。
-            * [iframe 組み込みの YouTube Player API リファレンス](https://developers.google.com/youtube/iframe_api_reference?hl=ja#Loading_a_Video_Player)
-            * 二次利用なのでこれは黒に近いグレーゾーン
-                * [ゲーム画面への動画埋め込みは規約に抵触しますか？](https://support.google.com/youtube/thread/12918728?hl=ja)
-        * おすすめはローカルの Web Server にこのリポジトリを clone して sound/ と movie/ に各種ファイルを入れる
+## 試してみるには
+
+* DARTSLIVE 200s を起動した状態でブラウザを開き、下記のページにアクセスしてください
+    * https://yoshidaa.github.io/200s/
+    * Android の場合は↑をホーム画面に追加すると全画面で遊べます
+* 初回プレイ時にはボードのマッピングの設定をする必要があります
+* 横幅 1280 のタブレット前提で作っているので、環境によっては表示がおかしいかもしれません
+
+## 技術的なメモ
+
+* この後の実装は未定です
+* DARTSLIVE 200s はキーボードとして認識されている
+    * 場所によって異なるキー入力が端末に送信されるしくみ
+    * 各セグメントと入力されるキーコードの対応は機器認証時に入力される 4 桁のコードによって異なるようだ
+        * [初期化のときに入力するコードによって変わるのでは？](https://twitter.com/NAOKI_MIKUMA/status/1252665579464355841?s=20) 説が有力
+
+## 効果音について
+
+本サイトの効果音は、すべて [効果音ラボ](https://soundeffect-lab.info/) より提供されているフリー素材を使用しています。
+
+### sound
+
+以下に、効果音として使用している [効果音ラボ](https://soundeffect-lab.info/) におけるサウンド名を記載しておきます。
+
+* d_bull
+    * ショット命中
+* s_bull
+    * ショット
+* u_bull
+    * 大爆発
+* bust
+    * ガラスが割れる2
+* start
+    * シーン切り替え2
+* round_start
+    * 男衆「オウ！」
+    * シーン切り替え2
+    * (上記をつないで一部編集したもの)
+* round_start_final
+    * タイトル表示
+    * シーン切り替え2
+    * (上記をつないで一部編集したもの)
+* change
+    * 決定、ボタン押下4
+* mark
+    * 小キック
+* T20
+    * 爆発2
+* T19
+    * スピードアップ
+* T18
+    * パワーアップ
+* T17
+    * ビームガン
+* T16
+    * レーザー
+* T15
+    * 逃走
+* single
+    * パッ
+* double
+    * パッ
+    * (上記を重ね合わせるよう編集したもの)
+* triple
+    * パッ
+    * (上記を重ね合わせるよう編集したもの)
+
+### movie
+
+以下に、アワードムービーの背景音として使用している [効果音ラボ](https://soundeffect-lab.info/) におけるサウンド名を記載しておきます。
+
+* 9mark
+    * きらきら輝く1
+* bed
+    * きらきら輝く2
+* whitehorse
+    * きらきら輝く3
+* highton
+    * きらきら輝く4
+* black
+    * きらきら輝く5
+* hattrick
+    * きらきら輝く6
+* lowton
+    * シャキーン1
+* 9mark
+    * シャキーン2
