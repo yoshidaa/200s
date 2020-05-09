@@ -12,7 +12,6 @@
   <script type="text/javascript" src="./js/media.js"></script>
   <script type="text/javascript" src="./js/main.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
-  <link rel="shortcut icon" href="../favicon.ico">
   <link rel="stylesheet" href="./css/loading.css" media="all">
   <link rel="stylesheet" href="./css/main.css" media="all">
   <link rel="stylesheet" href="./css/board.css" media="all">
@@ -29,9 +28,10 @@
 <div id="board_main" class="board">
   <table id="panel_information" class="panel">
     <tr><td style="background-color: #003;" colspan="2" id="game_name">COUNT-UP</td></tr>
-    <tr><td style="background-color: #003;" colspan="2" id="round">ROUND 0/9999</td></tr>
+    <tr><td style="background-color: #003; height: 55px;" colspan="2" id="round">ROUND 0/9999</td></tr>
     <tr><td style="background-color: transparent; height: 5px;"></td></tr>
     <tr><td colspan="2" id="player">Player 0</td></tr>
+    <tr><td colspan="2" id="options"></td></tr>
     <tr><td colspan="2" id="stats">PPD: 0.00</td></tr>
     <tr style="display: none"><td class="round">0R</td><td class="total">0</td></tr>
   </table>
@@ -40,9 +40,19 @@
     <p>SCORE PREDICTION <strong>1200</strong></p>
   </div>
 
-  <div id="panel_main" class="panel">
+  <div id="panel_total_score" class="panel">
     <p id="score_value">0</p>
   </div>
+
+  <table id="panel_total_mark" class="panel">
+    <tr><td class="number">20</td>  <td class="point"></td><td class="clear"></td></tr>
+    <tr><td class="number">19</td>  <td class="point"></td><td class="clear"></td></tr>
+    <tr><td class="number">18</td>  <td class="point"></td><td class="clear"></td></tr>
+    <tr><td class="number">17</td>  <td class="point"></td><td class="clear"></td></tr>
+    <tr><td class="number">16</td>  <td class="point"></td><td class="clear"></td></tr>
+    <tr><td class="number">15</td>  <td class="point"></td><td class="clear"></td></tr>
+    <tr><td class="number">BULL</td><td class="point"></td><td class="clear"></td></tr>
+  </table>
 
   <table id="panel_history" class="panel">
     <tr><td colspan="4" class="title">DART HISTORY</td></tr>
@@ -96,7 +106,7 @@
 </div>
 
 <div id="board_result" class="board">
-  <p>Result</p>
+  <p id="board_result_title">Result</p>
 
   <table id="panel_result" class="panel">
     <tr id="tr_result_winner">
@@ -113,6 +123,13 @@
       <td class="player3 title" id="result_player3player">Player 3</td>
       <td class="player4 title" id="result_player4player">Player 4</td>
     </tr>
+    <tr id="tr_result_darts">
+      <td id="result_darts_title">DARTS</td>
+      <td class="player1 darts" id="result_player1darts">0</td>
+      <td class="player2 darts" id="result_player2darts">0</td>
+      <td class="player3 darts" id="result_player3darts">0</td>
+      <td class="player4 darts" id="result_player4darts">0</td>
+    </tr>
     <tr id="tr_result_score">
       <td id="result_score_title">POINT</td>
       <td class="player1 score" id="result_player1score">0</td>
@@ -127,7 +144,7 @@
       <td class="player3 score" id="result_player3stats">0</td>
       <td class="player4 score" id="result_player4stats">0</td>
     </tr>
-    <tr id="tr_result_rating">
+    <tr id="tr_result_rating" style="display:none;">
       <td id="result_rating_title">Rating</td>
       <td class="player1 score" id="result_player1rating"></td>
       <td class="player2 score" id="result_player2rating"></td>
@@ -153,16 +170,41 @@
     YDarts Menu
   </p>
   <ul>
-    <li id="bm_unthrow">UNTHROW DART</li>
-    <li id="bm_endgame">END GAME</li>
-    <li id="bm_return">RETURN TO GAME</li>
+    <li id="bm_about"   class="active">ABOUT THIS GAME</li>
+    <li id="bm_options" class="active">GAME OPTION</li>
+    <li id="bm_unthrow" class="active">UNTHROW DART</li>
+    <li id="bm_restart" class="active">RESTART GAME</li>
+    <li id="bm_endgame" class="active">BACK TO MAIN MENU</li>
+    <li id="bm_return"  class="active">RETURN TO GAME</li>
   </ul>
+</div>
+
+<div id="board_game_option" class="board">
+  <h2>GAME OPTIONS</h2>
+
+  <table id="panel_game_option" class="panel">
+    <tr class="header">
+      <td class="title"  >OPTION</td>
+      <td class="player1" id="title_player1option">PLAYER 1</td>
+      <td class="player2" id="title_player2option">PLAYER 2</td>
+      <td class="player3" id="title_player3option">PLAYER 3</td>
+      <td class="player4" id="title_player4option">PLAYER 4</td>
+    </tr>
+  </table>
+
+  <p style="font-size: x-large;">Tap(Click) each column to change option value.</p>
+
+  <input id="button_ok" type="button" value="OK">
 </div>
 
 <div id="board_nmark" class="board">
   <table>
     <tr><td></td><td></td><td></td></tr>
   </table>
+</div>
+
+<div id="board_about" class="board">
+  <iframe id="about_game" name="iframe">IFrame is not supported..</iframe>
 </div>
 
 </body>

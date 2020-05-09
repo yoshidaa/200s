@@ -2,6 +2,13 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+function getUrlParameter(name) {
+  name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+  var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+  var results = regex.exec(location.search);
+  return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+};
+
 window.onload = function() {
   if( !Cookies.get( "boardmap" ) ){
     document.getElementById("panel_system_message").innerHTML = "Boardmap is not set.<br />Please set from <a href=\"./config/index.html\">Configuration Page</a>.";
@@ -33,6 +40,8 @@ window.onload = function() {
   }
   off_all_game_special = function(){
     document.getElementById("rb_game_big_bull").checked = false;
+    document.getElementById("rb_game_yamaguchi_a").checked = false;
+    document.getElementById("rb_game_yamaguchi_b").checked = false;
   }
   off_all_game = function(){
     off_all_game_practice();
@@ -101,6 +110,8 @@ window.onload = function() {
   document.getElementById("rb_game_standard_cricket").onchange = checked_game ;
   document.getElementById("rb_game_cutthroat_cricket").onchange = checked_game ;
   document.getElementById("rb_game_big_bull").onchange = checked_game ;
+  document.getElementById("rb_game_yamaguchi_a").onchange = checked_game ;
+  document.getElementById("rb_game_yamaguchi_b").onchange = checked_game ;
 
   document.getElementById("rb_player_1").onchange = checked_player ;
   document.getElementById("rb_player_2").onchange = checked_player ;
@@ -108,4 +119,17 @@ window.onload = function() {
   document.getElementById("rb_player_4").onchange = checked_player ;
 
   document.getElementById("button_config").onclick = function(){ window.location.href = './config/index.html' } ;
+
+  category = getUrlParameter("category");
+  game     = getUrlParameter("game");
+  players  = getUrlParameter("players");
+  if( category ){
+    setTimeout(function(){ document.getElementById("rb_category_"+category).click(); },10);
+    if( game ){
+      setTimeout(function(){ document.getElementById("rb_game_"+game).click(); },50);
+      if( players ){
+        setTimeout(function(){ document.getElementById("rb_player_"+players).click(); },90);
+      }
+    }
+  }
 }

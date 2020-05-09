@@ -26,7 +26,8 @@ div#board_round  { color: #ff0; background-color: #000; opacity: 0.9;  z-index: 
 div#board_next   { color: #ff0; background-color: #000; opacity: 0.9;  z-index: 1; }
 
 div#board_menu   { color: #ff0; background-color: #000; opacity: 0.95; z-index: 2; }
-div#board_menu   { width: 80%; height: 80%; left: 10%; top: initial; bottom: 10%; }
+div#board_menu   { width: 62%;  height: 80%; left: 19%; top: initial; bottom: 10%; }
+div#board_menu   { padding: 0; }
 
 div#board_bust   { color: #0cf; background-color: #000; opacity: 0.9;  z-index: 1; }
 
@@ -52,6 +53,11 @@ div#button_menu:hover{
   background-color: #fff;
 }
 
+td span.round{
+  font-size: 50px;
+  line-height: 50px;
+}
+
 div#button_menu div{
   position: relative;
   left: 0;
@@ -70,8 +76,44 @@ div#board_audios { display: none; }
 div#board_remove_darts { color: #ff0; background-color: #000; opacity: 0.9; z-index: 1; }
 
 div#board_result { color: #ff0; background-color: #000; opacity: 0.95;      z-index: 2; }
-/* div#board_result { visibility: visible }
+/* div#board_result { visibility: visible } */
+
+div#board_about { padding: 0; color: #ff0; background-color: #000; opacity: 0.95; z-index: 2; }
+div#board_about { width: 80%; height: 80%; left: 10%; top: 10%; }
+/* div#board_about { visibility: visible }
  */
+
+div#board_about iframe{ width: 100%; height: 100%; margin: 0; }
+
+div#board_game_option { color: #ff0; background-color: #000; opacity: 0.95; z-index: 2; }
+div#board_game_option { width: 80%; height: 80%; left: 10%; top: 10%; }
+div#board_game_option h2{ margin: 10px 2px 30px; font-size: xx-large; }
+
+div#board_game_option input{
+  width: 300px;
+  height: 70px;
+  font-size: 30px;
+  color: #333;
+  cursor: pointer;
+  background-color: #ccc;
+  border: 2px solid #333;
+  border-radius: 5px;
+  margin: auto;
+  bottom: 15px;
+  animation: pop_in 0.5s;
+}
+
+table#panel_game_option {
+  position: relative;
+  width: 80%;
+  height: 55%;
+  margin: auto;
+  background-color: #ccc;
+}
+
+table#panel_game_option           td.title{ width: 120px; }
+table#panel_game_option tr.header td      { height: 10px; }
+table#panel_game_option tr        td      { height: 30%; font-size: xx-large;}
 
 div#board_change       p{ height: 200px; font-size: 70px; }
 div#board_next         p{ height: 300px; font-size: 70px; }
@@ -122,7 +164,7 @@ div#board_nmark td{ border: 0; padding: 0; margin: 0; background-color: transpar
   position: fixed;
 }
 
-div#panel_main{
+div#panel_total_score{
   width: 100%;
   height: 100%;
   text-align: center;
@@ -133,7 +175,7 @@ div#panel_main{
   padding: 0px;
 }
 
-div#panel_main p{
+div#panel_total_score p{
   font-family: 'Lato';
   text-shadow: 10px 10px 20px #333; 
   position: absolute;
@@ -168,11 +210,12 @@ div#panel_control input{
   font-size: 30px;
 }
 
-
 div#board_menu p.menu_title{
   display: inline-block;
-  font-size: x-large;
+  font-size: xx-large;
   background-color: #2055AB;
+  margin: 0px;
+  margin-bottom: 15px;
   color: #fff;
   line-height: 200%;
   width: 100%;
@@ -192,17 +235,21 @@ div#board_menu ul li{
   box-sizing: border-box;
   display: inline-block;
   line-height: 120%;
-  width: 80%;
+  width: 70%;
   color: #333;
   border-radius: 10px;
-  font-size: 48px;
+  font-size: xx-large;
   background-color: #ccc;
   border: 1px solid #ccc;
-  margin: 20px auto;
+  margin: 15px auto;
   padding: 5px;
 }
 
-div#board_menu ul li:hover{
+div#board_menu ul li.inactive{
+  color: #999;
+}
+
+div#board_menu ul li:hover.active{
   color: #ccc;
   background-color: #333;
 }
@@ -239,3 +286,47 @@ div#panel_game_message strong{
   color: #ff6;
   font-size: 60px;
 }
+
+span.little_strong{
+  color: #ff6;
+}
+
+table#panel_total_mark {
+  width: 60%;
+  height: 60%;
+  top: 15%;
+  left: 20%;
+  margin: auto;
+}
+
+table#panel_total_mark td.number { color: #333; }
+
+table#panel_total_mark td{
+  font-size: 40px;
+}
+
+table#panel_total_mark td.point {
+  font-size: 60px;
+  line-height: 60px;
+  letter-spacing: -15px;
+  vertical-align: middle;
+  width: 76%;
+}
+
+table#panel_total_mark td.number{
+  width: 12%;
+}
+
+table#panel_total_mark td.clear{
+  width: 12%;
+}
+
+table#panel_total_mark img{
+  width:  54px;
+  height: 54px;
+  margin: 0;
+}
+
+span.percent{ font-size: xx-large; margin: 0; line-height: 0; }
+img.crown{ width: 60px; margin: 0px; line-height: 0px; }
+img.mini_crown{ height: 28px; margin: 0px; line-height: 0px; }

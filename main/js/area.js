@@ -32,6 +32,31 @@ class Area{
     }
   }
 
+  static to_score( area, game, stats_type, bull_type ){
+    var score;
+    if( game == "big_bull" ){
+      if(      Area.is_DB( area ) ) score = 70 ;
+      else if( Area.is_SB( area ) ) score = 50 ;
+      else if( Area.is_IS( area ) ) score = 50 ; // BIG BULL
+      else if( Area.is_OS( area ) ) score = 1 * Area.to_number( area ) ;
+      else if( Area.is_D( area )  ) score = 2 * Area.to_number( area ) ;
+      else if( Area.is_T( area )  ) score = 3 * Area.to_number( area ) ;
+    }else if( game == "bull_shoot" ){
+      if(      Area.is_DB( area ) ) score = 50 ;
+      else if( Area.is_SB( area ) ) score = 25 ;
+      else                               score = 0;
+    }else{
+      var sepa = ( bull_type == "25_50" ) || ( stats_type == "MPR" );
+      if(      Area.is_DB( area ) ) score = 50 ;
+      else if( Area.is_SB( area ) ) score = sepa ? 25 : 50 ;
+      else if( Area.is_IS( area ) ) score = 1 * Area.to_number( area ) ;
+      else if( Area.is_OS( area ) ) score = 1 * Area.to_number( area ) ;
+      else if( Area.is_D( area )  ) score = 2 * Area.to_number( area ) ;
+      else if( Area.is_T( area )  ) score = 3 * Area.to_number( area ) ;
+    }
+    return score;
+  }
+
   static is_IS( area )  { return area[0] == "I"; }
   static is_OS( area )  { return area[0] == "O"; }
   static is_S( area )   { return Area.is_IS( area ) || Area.is_OS( area ); }
