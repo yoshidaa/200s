@@ -353,12 +353,13 @@ class SystemManager {
   }
 
   restart_game(){
-    var params        = {};
-    var params_prestr = [];
-    params["players"] = game_mg.players.length;
-    params["game"   ] = game_mg.game;
-    params["bull"   ] = game_mg.bull_type;
-    params["options"] = [];
+    var params         = {};
+    var params_prestr  = [];
+    params["players"]  = game_mg.players.length;
+    params["category"] = category;
+    params["game"   ]  = game_mg.game;
+    params["bull"   ]  = game_mg.bull_type;
+    params["options"]  = [];
     for( var i = 0 ; i < players ; i++ ){
       params["options"][i] = game_mg.players[i].options ;
     }
@@ -376,8 +377,8 @@ class SystemManager {
     var params         = {};
     var params_prestr  = [];
     params["players"]  = game_mg.players.length;
-    params["game"   ]  = game_mg.game;
     params["category"] = category;
+    params["game"   ]  = game_mg.game;
     Object.keys( params ).forEach(function( pname ){
       params_prestr.push( pname + "=" + params[pname] );
     });
