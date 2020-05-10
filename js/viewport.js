@@ -7,11 +7,11 @@ if(isiOS){
 }
 function updateMetaViewport(){
   var viewportContent;
-  var w = window.outerWidth;
+  var w = window.innerWidth;
   if(isiOS){
     w = iOSviewportW;
   }
-  var rate = w / baseW;
+  var rate = (w / baseW).toFixed(3);
   viewportContent = "width=1280,initial-scale=" + rate;
   document.querySelector("meta[name='viewport']").setAttribute("content", viewportContent);
 }
