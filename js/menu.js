@@ -42,6 +42,7 @@ window.onload = function() {
     document.getElementById("rb_game_big_bull").checked = false;
     document.getElementById("rb_game_yamaguchi_a").checked = false;
     document.getElementById("rb_game_yamaguchi_b").checked = false;
+    document.getElementById("rb_game_yamaguchi_c").checked = false;
   }
   off_all_game = function(){
     off_all_game_practice();
@@ -112,6 +113,7 @@ window.onload = function() {
   document.getElementById("rb_game_big_bull").onchange = checked_game ;
   document.getElementById("rb_game_yamaguchi_a").onchange = checked_game ;
   document.getElementById("rb_game_yamaguchi_b").onchange = checked_game ;
+  document.getElementById("rb_game_yamaguchi_c").onchange = checked_game ;
 
   document.getElementById("rb_player_1").onchange = checked_player ;
   document.getElementById("rb_player_2").onchange = checked_player ;
