@@ -69,13 +69,13 @@ class Player {
     }else if( game_code == "yamaguchi_c" ){
       this.category        = "cricket" ;
       this.game            = game_code;
-      this.round_limit     = 99;
-      this.initial_score   = 0;
+      this.round_limit     = 4;
+      this.initial_score   = -1;
       this.score_mode      = "total_awards";
       this.target_numbers  = [ "20", "19", "18", "17", "16", "15", "BULL", "CLEAR" ];
       this.stats_type      = "MPR";
-      this.options         = { "award": "WHITEHORSE" };
-      this.opt_candidates  = { "award": [ 3 ] };
+      this.options         = { "award": "whitehorse" };
+      this.opt_candidates  = { "award": [ "whitehorse", "any9mark" ] };
     }
     if( Object.keys( opt ).length != 0 ){ this.options = opt; }
     this.round_finished = false ;
@@ -111,7 +111,13 @@ class Player {
 
   get initial_marks()     { return { "20": 0, "19": 0, "18": 0, "17": 0, "16": 0, "15": 0, "BULL": 0 }; }
   get current_marks()     { return this.darts_to_marks( this.current_round_data["darts"] ); }
-  get latest_dart()       { return this.current_round_data["darts"][this.thrown_darts - 1]["area"]; }
+  get latest_dart()       {
+    if( this.current_round_data["darts"][this.thrown_darts - 1] ){
+      return this.current_round_data["darts"][this.thrown_darts - 1]["area"];
+    }else{
+      return "";
+    }
+  }
   get is_bust()           {
     if( this.category == "zeroone" ){
       return ( ( this.total_score < 0 ) || ( this.total_score == 1 && this.options["out"] != "OPEN" ) );
@@ -160,6 +166,14 @@ class Player {
       if( this.stage == 7 ) return true; // for panel_mg.display_score()...
       if( this.stage == 6 ){ return Area.is_BULL( area ); }
       else{ return ( Area.is_T( area ) && Area.is_cricket_number( area ) ) && ( this.total_marks[Area.to_number(area)] < this.options["number_of_marks"] ) }
+    }else if( this.game == "yamaguchi_c" ){
+      if( this.stage == 0 ){
+        return Area.is_BULL( area );
+      }else if( this.stage == 1 || this.stage == 2 ){
+        return Area.is_cricket_number( area ) && !Area.is_BULL( area );
+      }else if( this.stage == 3 ){
+        return ( this.thrown_darts != 2 ) ? false : Area.is_BULL( area );
+      }
     }else{
       valid = true ;
     }
@@ -201,6 +215,23 @@ class Player {
       total["score"] = this.total_thrown_darts;
     }else if( this.score_mode == "total_marks_percent" ){
       total["score"] = ( 100.0 * sum( Object.values( this.total_marks ) ) / ( this.options["number_of_marks"] * 7 ) ).toFixed(1) ;
+    }else if( this.score_mode == "total_awards" ){
+      if( this.options["award"] == "whitehorse" ){
+        total["score"] = this.total_awards[this.options["award"]] || 0;
+      }else if( this.options["award"] == "any9mark" ){
+        total["score"]  = 0;
+        total["score"] += this.total_awards["whitehorse"] || 0;
+        total["score"] += this.total_awards["bed"] || 0;
+        total["score"] += this.total_awards["9mark"] || 0;
+      }
+
+      // stage check
+      if( !this.check_marks_yamaguchi_c() ){
+        total["score"] = -1;
+      }
+      if( this.current_round == this.round_limit && this.thrown_darts == 3 && !Area.is_BULL( this.latest_dart ) ){
+        total["score"] = -1;
+      };
     }
   }
 
@@ -213,6 +244,9 @@ class Player {
         marks[keys[i]] += rd["marks"][keys[i]];
         if( this.game == "yamaguchi_a" || this.game == "yamaguchi_b" ){
           marks[keys[i]] = Math.min( marks[keys[i]], this.options["number_of_marks"] );
+        }
+        if( this.game == "yamaguchi_c" && this.stage != 4 && keys[i] == "BULL" ){
+          marks[keys[i]] = Math.min( marks[keys[i]], 2 );
         }
       }
     }
@@ -246,9 +280,17 @@ class Player {
     var total = this.total_marks;
     if( this.game == "yamaguchi_a" || this.game == "yamaguchi_b" ){
       return ( total[number.toString()] < this.options["number_of_marks"] );
+    }else if( this.game == "yamaguchi_c" ){
+      return ( total[number.toString()] < 3 );
     }else{
       throw "is_imcomplete_number is not supported at this game (" + this.game + ")";
     }
+  }
+
+  check_marks_yamaguchi_c = function(){
+    return ( this.total_marks["20"] >= 3 ) && ( this.total_marks["19"] >= 3 )
+        && ( this.total_marks["18"] >= 3 ) && ( this.total_marks["17"] >= 3 )
+        && ( this.total_marks["16"] >= 3 ) && ( this.total_marks["15"] >= 3 );
   }
 
   get stage(){
@@ -258,6 +300,16 @@ class Player {
     }else if( this.game == "yamaguchi_b" ){
       for( var i = 0 ; i < this.target_numbers.length ; i++ ){
         if( stage != 7 && !this.is_incomplete_number( this.target_numbers[stage] ) ) stage += 1;
+      }
+    }else if( this.game == "yamaguchi_c" ){
+      if( this.total_marks["BULL"] < 2 ){
+        return 0;
+      }else if( this.current_round == this.round_limit ){
+        return 3;
+      }else if( this.check_marks_yamaguchi_c() ){
+        return 2;
+      }else{
+        return 1;
       }
     }else{ // cr_count_up
       stage = this.current_round - 1;
@@ -276,17 +328,21 @@ class Player {
     this.update_total_marks();
     this.update_total_score();
     this.update_total_stats();
+    this.update_total_awards();
   }
 
-  update_awards(){
-    var award = this.check_award( this.current_round_data );
-    var total = this.total_data;
-    if( award ){
-      if( !total["awards"][award] ){
-        total["awards"][award] = 0;
+  update_total_awards(){
+    var awards = {}
+    for( var i = 1 ; i <= this.current_round ; i++ ){
+      var award = this.check_award( this.round_data(i) );
+      if( award ){
+        if( !awards[award] ){
+          awards[award] = 0;
+        }
+        awards[award] += 1;
       }
-      total["awards"][award] += 1;
     }
+    this.total_data["awards"] = awards;
   }
 
   recalc(){
@@ -301,18 +357,19 @@ class Player {
       cond = cond || ( this.options["out"] == "MASTER" && ( Area.is_S( latest ) == false ) );
       cond = cond || ( this.options["out"] == "DOUBLE" && ( Area.is_D( latest ) || Area.is_DB( latest ) ) );
       cond = cond || ( this.options["out"] == "OPEN" );
-    }else{
-      cond = cond || ( ( this.game == "yamaguchi_a" ) && ( this.stage == 7 ) );
-      cond = cond || ( ( this.game == "yamaguchi_b" ) && ( this.stage == 7 ) );
+    }else if( this.game == "yamaguchi_a" || this.game == "yamaguchi_b" ){
+      cond = ( this.stage == 7 );
     }
     // cond = cond || ( ( this.category == "cricket" ) && this.is_top_score() && this.is_all_marked() );
-    return cond ;
+    return cond;
+  }
+
+  finish_round(){
+    this.round_finished = true;
+    this.recalc();
   }
 
   check_award( data = this.current_round_data ){
-    this.round_finished = true ;
-    this.recalc();
-
     var award_name = null;
     var d_bull_count = 0;
     var   bull_count = 0;
@@ -374,6 +431,26 @@ class Player {
         }
         return "THROW AT " + str.join(",") ;
       }
+    }else if( this.game == "yamaguchi_c" ){
+      if( this.stage == 0 ) return "1. THROW AT <strong>BULL</strong>";
+      if( this.stage == 1 ){
+        var str = [];
+        var target ;
+        for( var i = 0 ; i < 6 ; i++ ){
+          target = this.target_numbers[i];
+          if( this.is_incomplete_number( target ) ){
+            str.push( "<span class=\"little_strong\">" + target + "</span>" );
+          }
+        }
+        return "2. OPEN " + str.join(",") ;
+      }
+      if( this.stage == 2 ) return "3. MAKE " + this.options["award"].toUpperCase() + "!!";
+      if( this.stage == 3 ){
+        if( this.thrown_darts  < 2 ) return "4. THROW AT ANY AREA (ignored)";
+        if( this.thrown_darts == 2 ) return "4. THROW AT <strong>BULL</strong>";
+        if( this.thrown_darts == 3 &&  Area.is_BULL( this.latest_dart ) ) return "Congratulations";
+        if( this.thrown_darts == 3 && !Area.is_BULL( this.latest_dart ) ) return "GAME OVER";
+      }
     }else if( this.category == "count_up" ){
       return "SCORE PREDICTION <strong>" + this.prediction() + "</strong>";
     }else{
@@ -395,29 +472,27 @@ class GameManager {
     this.game        = game_code;
     this.game_name   = game_code.replace( "_", " " ).toUpperCase();
     if(       game_code == "count_up" || game_code == "big_bull" || game_code == "bull_shoot" ){
-      this.round_limit     = 8;
       this.score_mode      = "total_score";
       this.stats_type      = "PPD";
     }else if( game_code == "cr_count_up" ){
-      this.round_limit     = 8;
       this.score_mode      = "total_score";
       this.stats_type      = "MPR";
     }else if( game_code[0] == "z" ){
       var ivalue           = Number( game_code.substr(1) );
-      var round_limits     = { 301: 10, 501: 15, 701: 15, 901: 20, 1101: 20, 1501: 20 };
       this.game_name       = ivalue + " GAME";
-      this.round_limit     = round_limits[ivalue];
       this.score_mode      = "zeroone";
       this.stats_type      = "PPD";
     }else if( game_code == "yamaguchi_a" ){
       this.game_name       = "山口練習法 1";
-      this.round_limit     = 99;
       this.score_mode      = "total_marks_percent";
       this.stats_type      = "MPR";
     }else if( game_code == "yamaguchi_b" ){
       this.game_name       = "山口練習法 2";
-      this.round_limit     = 99;
       this.score_mode      = "total_marks_percent";
+      this.stats_type      = "MPR";
+    }else if( game_code == "yamaguchi_c" ){
+      this.game_name       = "山口練習法 3";
+      this.score_mode      = "total_awards";
       this.stats_type      = "MPR";
     }
     this.current_player_idx = -1;
@@ -429,7 +504,6 @@ class GameManager {
   }
 
   change_player(){
-    if( this.current_player_idx != -1 ){ this.current_player.update_awards(); }
     this.current_player_idx = ( this.current_player_idx + 1 ) % this.num_players;
     if( this.current_player_idx == 0 ) this.change_round();
   }
@@ -468,13 +542,13 @@ class GameManager {
 
   get current_player(){ return this.players[this.current_player_idx]; }
   get current_round() { return this.current_player.current_round ; }
+  get round_limit()   { return this.current_player.round_limit ; }
 
   get final_player()  { return ( this.current_player.id == ( this.num_players - 1 ) ); }
   get final_round()   { return ( this.current_round == this.round_limit ); }
 
   update( key )       { this.current_player.update( key ); }
   recalc()            { this.current_player.recalc(); }
-  update_awards()     { this.current_player.update_awards(); }
   game_message()      { return this.current_player.game_message(); }
 
   is_top_score( player=this.current_player_idx ){

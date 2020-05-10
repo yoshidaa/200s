@@ -193,7 +193,7 @@ class InterfaceManager { // といっても window.onload から constructor に
         document.getElementById("bm_options").className = "inactive";
         document.getElementById("bm_options").onclick = function(){};
       }
-      if( game_mg.game == "yamaguchi_a" || game_mg.game == "yamaguchi_b" ){
+      if( game_mg.game == "yamaguchi_a" || game_mg.game == "yamaguchi_b" || game_mg.game == "yamaguchi_c" ){
         document.getElementById("bm_about").onclick = async function(){
           document.iframe.location = "./about/" + game_mg.game + ".html";
           board_mg.hide("board_menu");
@@ -295,7 +295,7 @@ class SystemManager {
 
   game_over(){
     media_mg.play_sound("out");
-    game_mg.update_awards();
+    game_mg.recalc();
     panel_mg.update( game_mg );
     board_mg.show("board_result");
   }
@@ -327,26 +327,36 @@ class SystemManager {
       var changed = ( key == 'CH' );
       if( changed ){
         if( media_mg.playing_award != null ){ this.stop_award(); }
-        else if( game_mg.current_player.thrown_darts < 3 ){ this.wait_award_ended = this.play_award(); }
+        else if( game_mg.current_player.thrown_darts < 3 ){
+          game_mg.current_player.finish_round();
+          this.wait_award_ended = this.play_award();
+        }
         while( this.wait_award_ended ){ await sleep(10); }
-        if( this.check_end( changed ) ){ return ; }
+        if( this.check_end( changed ) ){
+          this.game_over();
+          return ;
+        }
         this.change_player();
       }else if( ( media_mg.playing_award == null ) && ( !board_mg.is_shown("board_change") ) ){
         if ( game_mg.current_player.thrown_darts < 3 ){ this.dart_update( key ); }
         await sleep(700);
         if( game_mg.current_player.is_bust ){
+          game_mg.current_player.finish_round();
           this.bust();
         }else if( this.check_end( changed ) ){
+          game_mg.current_player.finish_round();
           this.wait_award_ended = this.play_award();
           if( this.wait_award_ended == false ){ this.game_over(); }
           return ;
         }else if( game_mg.current_player.thrown_darts == 3 ){
+          game_mg.current_player.finish_round();
           var award_played = this.play_award();
           if( !award_played ){
             board_mg.show("board_change");
           }
         }
       }
+      panel_mg.update( game_mg );
       await sleep(700);
       this.mutex_keypress = 0;
     }

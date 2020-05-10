@@ -292,11 +292,10 @@ span.little_strong{
 }
 
 table#panel_total_mark {
-  width: 60%;
   height: 60%;
   top: 15%;
-  left: 20%;
   margin: auto;
+  border: 5px solid #333;
 }
 
 table#panel_total_mark td.number { color: #333; }
@@ -310,15 +309,16 @@ table#panel_total_mark td.point {
   line-height: 60px;
   letter-spacing: -15px;
   vertical-align: middle;
-  width: 76%;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 table#panel_total_mark td.number{
-  width: 12%;
+  width: 80px;
 }
 
 table#panel_total_mark td.clear{
-  width: 12%;
+  width: 80px;
 }
 
 table#panel_total_mark img{

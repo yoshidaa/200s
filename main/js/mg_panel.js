@@ -26,7 +26,7 @@ class PanelManager {
         td.style.width   = ( 80 / game_mg.num_players ) + "%";
       });
     }
-    if( game_mg.game == "yamaguchi_a" || game_mg.game == "yamaguchi_b" ){
+    if( game_mg.game == "yamaguchi_a" || game_mg.game == "yamaguchi_b" || game_mg.game == "yamaguchi_c" ){
       document.getElementById("panel_total_mark").style.visibility  = "visible";
       document.getElementById("panel_total_score").style.visibility = "hidden";
     }else{
@@ -83,7 +83,7 @@ class PanelManager {
       }else if( optkey == "number_of_marks" ){
         options_str += optval + " TIMES / TARGET";
       }else{
-        options_str += optkey + ": " + optval ;
+        options_str += optkey.toUpperCase() + ": " + optval.toUpperCase() ;
       }
       options_str += ( i == options.length - 1 ) ? "" : "<br />";
     }
@@ -97,12 +97,12 @@ class PanelManager {
   update_score( game_mg ){
     var player = game_mg.current_player;
     var score = player.total_score;
-    document.getElementById("score_value").innerHTML = score;
+    document.getElementById("score_value").innerHTML = ( score == -1 ) ? "<span style=\"font-size: 200px;\">No Score</span>" : score;
     var ft_colors = [ "#FFAA01", "#1CE6FE", "#FF0000", "#00FF00" ];
     var bg_colors = [ "#FFCC99", "#CBFAFF", "#FFC0C0", "#C0FFC0" ];
     document.getElementById("panel_total_score").style.color = ft_colors[player.id];
 
-    // for yamaguchi_a/yamaguchi_b
+    // for yamaguchi_a/yamaguchi_b/yamaguchi_c
     var total_mark_table = document.getElementById("panel_total_mark");
     var trs              = total_mark_table.getElementsByTagName("tr");
     var tds_number       = total_mark_table.getElementsByClassName("number");
@@ -120,29 +120,41 @@ class PanelManager {
         tds_number[i].style.backgroundColor = "";
       }
       tds_point[i].innerHTML = "";
-      var times = game_mg.current_player.options["number_of_marks"] || 10 ;
-      var limit = Math.min( cr_marks[key], times );
-      for( var j = 0 ; j < limit ; j++ ){
-        tds_point[i].innerHTML += '<img src="img/grade2_yokudekimashita_pink.png" />';
-      }
-      for( var j = cr_marks[key] ; j < times ; j++ ){
-        tds_point[i].innerHTML += '<img src="img/grade2_yokudekimashita_gray.png" />';
-      }
-      if( cr_marks[key] >= times ){
-        tds_clear[i].innerHTML = '<img src="img/hanko_taihenyokudekimashita_pink.png" />';
-      }else{
-        tds_clear[i].innerHTML = "";
+      var marks = cr_marks[key];
+      if( game_mg.game == "yamaguchi_a" || game_mg.game == "yamaguchi_b" ){
+        var goal              = game_mg.current_player.options["number_of_marks"];
+        var num_marked_full   = Math.floor( marks / 3 );
+        var num_marked_rem    = marks % 3;
+        var num_unmarked      = Math.max( 0, goal - ( Math.ceil( marks / 3 ) * 3 ) );
+        var num_unmarked_full = Math.floor( num_unmarked / 3 );
+        var num_unmarked_rem  = num_unmarked % 3;
+        var num_marked_rem_bg = ( ( goal % 3 != 0 ) && ( num_unmarked_full == 0 && num_unmarked_rem == 0 ) ) ? goal % 3 : 3 ;
+
+        for( var j = 0 ; j < num_marked_full ; j++ ){   tds_point[i].innerHTML += '<img src="img/mini_mark3.png" />'; }
+        tds_point[i].innerHTML += (num_marked_rem > 0) ? '<img src="img/mini_mark' + num_marked_rem + '_' + num_marked_rem_bg + '.png" />' : "";
+        for( var j = 0 ; j < num_unmarked_full ; j++ ){ tds_point[i].innerHTML += '<img src="img/mini_mark3_gray.png" />'; }
+        tds_point[i].innerHTML += (num_unmarked_rem > 0) ? '<img src="img/mini_mark' + num_unmarked_rem + '_gray.png" />' : "";
+
+        tds_clear[i].innerHTML = (cr_marks[key] >= goal) ? '<img src="img/hanko_taihenyokudekimashita_pink.png" />' : "";
+      }else if( game_mg.game == "yamaguchi_c" ){
+        var opened = (marks >= 3);
+        var rem    = marks % 3;
+        if( opened ){ tds_point[i].innerHTML = '<img src="img/mini_mark3.png" />'; }
+        else{         tds_point[i].innerHTML = '<img src="img/mini_mark' + rem + '_3.png" />'; }
+        tds_clear[i].innerHTML  = (cr_marks[key] >= 3) ? '<img src="img/hanko_taihenyokudekimashita_pink.png" />' : "";
       }
     }
+    total_mark_table.style.left = ( document.getElementById("board_main").clientWidth - total_mark_table.clientWidth ) / 2;
 
     var img_crown = "img/mark_oukan_crown1_gold.png";
     for( var i = 1 ; i <= game_mg.num_players ; i++ ){
       var current = ( (i-1) == player.id );
+      var score = game_mg.players[i-1].total_score;
 
       // board_main
       var td_score = document.getElementById("player"+i+"score");
       var td_title = document.getElementById("player"+i+"title");
-      td_score.innerHTML             = game_mg.players[i-1].total_score ;
+      td_score.innerHTML             = ( score == -1 ) ? "-" : score ;
       if( game_mg.players[i-1].score_mode == "total_marks_percent" )
         td_score.innerHTML += "<span class=\"percent\">%</span>"
       td_score.style.color           = current ? "#101010"         : "#333";
@@ -161,7 +173,7 @@ class PanelManager {
 
       td_winner.innerHTML = game_mg.is_top_score(i-1) ? "<img src=\"" + img_crown + "\" class=\"crown\" />" : "";
       td_darts.innerHTML = game_mg.players[i-1].total_thrown_darts;
-      td_score.innerHTML = game_mg.players[i-1].total_score;
+      td_score.innerHTML = ( score == -1 ) ? "No Score" : score;
       if( game_mg.players[i-1].score_mode == "total_marks_percent" )
         td_score.innerHTML += " %"
       td_stats.innerHTML = game_mg.players[i-1].total_stats;
