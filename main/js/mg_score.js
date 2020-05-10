@@ -69,7 +69,7 @@ class Player {
     }else if( game_code == "yamaguchi_c" ){
       this.category        = "cricket" ;
       this.game            = game_code;
-      this.round_limit     = 4;
+      this.round_limit     = 20;
       this.initial_score   = -1;
       this.score_mode      = "total_awards";
       this.target_numbers  = [ "20", "19", "18", "17", "16", "15", "BULL", "CLEAR" ];

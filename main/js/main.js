@@ -199,7 +199,7 @@ class InterfaceManager { // といっても window.onload から constructor に
           board_mg.hide("board_menu");
           board_mg.show("board_about");
           // dirty...
-          await sleep(2000);
+          await sleep(3000);
           document.iframe.onclick = function(){
             board_mg.hide("board_about");
             board_mg.show("button_menu");
