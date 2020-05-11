@@ -1,19 +1,17 @@
-var baseW = 1200;	//基準となるブレークポイント
-var iOSviewportW = 0;
-var ua = navigator.userAgent.toLowerCase();
-var isiOS = (ua.indexOf("iphone") > -1) || (ua.indexOf("ipod") > -1) || (ua.indexOf("ipad") > -1);
-if(isiOS){
-	iOSviewportW = document.documentElement.clientWidth;
-}
+var contentWidth  = 1280;
+var contentHeight = 720;
+var clientWidth   = document.documentElement.clientWidth;
+var clientHeight  = document.documentElement.clientHeight;
+
 function updateMetaViewport(){
   var viewportContent;
-  var w = window.innerWidth;
-  if(isiOS){
-    w = iOSviewportW;
+  var rateW = (clientWidth / contentWidth).toFixed(3);
+  var rateH = (clientHeight / contentHeight).toFixed(3);
+  var rate  = Math.min( rateW, rateH );
+  viewportContent = "width=" + contentWidth + ",height=" + contentHeight + "initial-scale=" + rate;
+  if( rate < 1 ){
+    document.querySelector("meta[name='viewport']").setAttribute("content", viewportContent);
   }
-  var rate = (w / baseW).toFixed(3);
-  viewportContent = "width=1280,initial-scale=" + rate;
-  document.querySelector("meta[name='viewport']").setAttribute("content", viewportContent);
 }
 
 window.addEventListener("resize", updateMetaViewport, false);

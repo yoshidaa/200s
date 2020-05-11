@@ -327,6 +327,19 @@ table#panel_total_mark img{
   margin: 0;
 }
 
+@media screen and (max-height: 500px), (orientation: landscape){
+  table#panel_total_mark td.point {
+    font-size: 48px;
+    line-height: 48px;
+  }
+
+  table#panel_total_mark td{
+    font-size: 30px;
+    line-height: 100%;
+    padding: 1px;
+  }
+}
+
 span.percent{ font-size: xx-large; margin: 0; line-height: 0; }
 img.crown{ width: 60px; margin: 0px; line-height: 0px; }
 img.mini_crown{ height: 28px; margin: 0px; line-height: 0px; }

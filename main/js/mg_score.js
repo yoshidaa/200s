@@ -1,5 +1,7 @@
+/*jshint esversion: 6 */
+/*jshint sub:true*/
 function len( array, pat ){
-  return array.filter(function(x){ return (x.indexOf(pat) != -1) }).length;
+  return array.filter(function(x){ return (x.indexOf(pat) != -1); }).length;
 }
 
 function sum(arr){
@@ -7,14 +9,14 @@ function sum(arr){
 }
 
 function count( arr, value ){
-  return arr.filter( function(x){ return x === value } ).length;
+  return arr.filter( function(x){ return x === value; } ).length;
 }
 
 // -----------------------------------------------------------------
 //  Player
 // -----------------------------------------------------------------
 class Player {
-  constructor( id, game_code, bull="50_50", opt={ } ){
+  constructor( id, game_code, bull="50_50", opt={} ){
     this.id          = id;
     this.bull_type   = bull;
     if(      game_code == "count_up" || game_code == "big_bull" || game_code == "bull_shoot" ){
@@ -165,7 +167,7 @@ class Player {
     }else if( this.game == "yamaguchi_b" ){
       if( this.stage == 7 ) return true; // for panel_mg.display_score()...
       if( this.stage == 6 ){ return Area.is_BULL( area ); }
-      else{ return ( Area.is_T( area ) && Area.is_cricket_number( area ) ) && ( this.total_marks[Area.to_number(area)] < this.options["number_of_marks"] ) }
+      else{ return ( Area.is_T( area ) && Area.is_cricket_number( area ) ) && ( this.total_marks[Area.to_number(area)] < this.options["number_of_marks"] ); }
     }else if( this.game == "yamaguchi_c" ){
       if( this.stage == 0 ){
         return Area.is_BULL( area );
@@ -231,7 +233,7 @@ class Player {
       }
       if( this.current_round == this.round_limit && this.thrown_darts == 3 && !Area.is_BULL( this.latest_dart ) ){
         total["score"] = -1;
-      };
+      }
     }
   }
 
@@ -287,7 +289,7 @@ class Player {
     }
   }
 
-  check_marks_yamaguchi_c = function(){
+  check_marks_yamaguchi_c(){
     return ( this.total_marks["20"] >= 3 ) && ( this.total_marks["19"] >= 3 )
         && ( this.total_marks["18"] >= 3 ) && ( this.total_marks["17"] >= 3 )
         && ( this.total_marks["16"] >= 3 ) && ( this.total_marks["15"] >= 3 );
@@ -332,7 +334,7 @@ class Player {
   }
 
   update_total_awards(){
-    var awards = {}
+    var awards = {};
     for( var i = 1 ; i <= this.current_round ; i++ ){
       var award = this.check_award( this.round_data(i) );
       if( award ){
@@ -382,11 +384,11 @@ class Player {
     }
 
     if( this.game == "big_bull" ){
-      d_bull_count = len( areas, 'DB' ) + len( areas, 'SB' );
-        bull_count = d_bull_count + len( areas, 'IS' );
+      d_bull_count = len( areas, "DB" ) + len( areas, "SB" );
+        bull_count = d_bull_count + len( areas, "IS" );
     }else{
-      d_bull_count = len( areas, 'DB' );
-        bull_count = d_bull_count + len( areas, 'SB' );
+      d_bull_count = len( areas, "DB" );
+        bull_count = d_bull_count + len( areas, "SB" );
     }
 
     if( data["bust"] == false ){
@@ -412,17 +414,17 @@ class Player {
   }
 
   game_message(){
+    var target;
+    var str = [];
     if( this.game == "cr_count_up" ){
-      var target = this.target_numbers[this.stage];
+      target = this.target_numbers[this.stage];
       return target ? "THROW AT <strong>" + target + "</strong>" : "THROW AT ANY CRICKET NUMBERS";
     }else if( this.game == "yamaguchi_a" ){
-      var target = "<strong>" + this.target_numbers[this.stage] + "</strong>";
+      target = "<strong>" + this.target_numbers[this.stage] + "</strong>";
       return ( target == "CLEAR" ) ? "CLEAR!!!" : "THROW AT " + target;
     }else if( this.game == "yamaguchi_b" ){
       if( this.stage == 6 ) return "THROW AT <strong>BULL</strong>";
       else{
-        var str = [];
-        var target ;
         for( var i = 0 ; i < 6 ; i++ ){
           target = this.target_numbers[i];
           if( this.is_incomplete_number( target ) ){
@@ -434,8 +436,6 @@ class Player {
     }else if( this.game == "yamaguchi_c" ){
       if( this.stage == 0 ) return "1. THROW AT <strong>BULL</strong>";
       if( this.stage == 1 ){
-        var str = [];
-        var target ;
         for( var i = 0 ; i < 6 ; i++ ){
           target = this.target_numbers[i];
           if( this.is_incomplete_number( target ) ){
@@ -498,7 +498,7 @@ class GameManager {
     this.current_player_idx = -1;
     this.players = [];
     for( var i = 0 ; i < this.num_players ; i++ ){
-      var opt = options[i] || {}
+      var opt = options[i] || {};
       this.players.push( new Player(i, game_code, bull, opt) );
     }
   }
