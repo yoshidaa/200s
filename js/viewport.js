@@ -1,16 +1,18 @@
-var contentWidth  = 1280;
-var contentHeight = 720;
-var clientWidth   = document.documentElement.clientWidth;
-var clientHeight  = document.documentElement.clientHeight;
-
 function updateMetaViewport(){
   var viewportContent;
+  var contentWidth  = 1280;
+  var contentHeight = 720;
+  var clientWidth   = screen.width;
+  var clientHeight  = screen.height;
   var rateW = (clientWidth / contentWidth).toFixed(3);
   var rateH = (clientHeight / contentHeight).toFixed(3);
-  var rate  = Math.min( rateW, rateH );
-  viewportContent = "width=" + contentWidth + ",height=" + contentHeight + "initial-scale=" + rate;
+  var rate  = rateW ;// Math.min( rateW, rateH );
+  viewportContent = "width=" + contentWidth + ",initial-scale=" + rate;
   if( rate < 1 ){
-    document.querySelector("meta[name='viewport']").setAttribute("content", viewportContent);
+  //  document.querySelector("meta[name='viewport']").setAttribute("content", viewportContent);
+  }
+  if( panel_mg != undefined ){
+    panel_mg.update( game_mg );
   }
 }
 

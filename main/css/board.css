@@ -10,6 +10,7 @@ div.board{
   height:     100%;
   text-align: center;
   padding:    8px;
+  cursor:     pointer;
 }
 
 div.board p.message{
@@ -83,7 +84,7 @@ div#board_about { width: 80%; height: 80%; left: 10%; top: 10%; }
 /* div#board_about { visibility: visible }
  */
 
-div#board_about iframe{ width: 100%; height: 100%; margin: 0; }
+div#board_about iframe{ width: 100%; height: 100%; margin: 0; cursor: pointer; }
 
 div#board_game_option { color: #ff0; background-color: #000; opacity: 0.95; z-index: 2; }
 div#board_game_option { width: 80%; height: 80%; left: 10%; top: 10%; }
@@ -301,6 +302,7 @@ table#panel_total_mark {
 table#panel_total_mark td.number { color: #333; }
 
 table#panel_total_mark td{
+  height: 10%;
   font-size: 40px;
 }
 
@@ -322,21 +324,21 @@ table#panel_total_mark td.clear{
 }
 
 table#panel_total_mark img{
-  width:  48px;
-  height: 48px;
+  width:  54px;
+  height: 54px;
   margin: 0;
 }
 
 @media screen and (max-height: 500px), (orientation: landscape){
+  table#panel_total_mark img{
+    width:  48px;
+    height: 48px;
+    margin: 0;
+  }
+
   table#panel_total_mark td.point {
     font-size: 48px;
     line-height: 48px;
-  }
-
-  table#panel_total_mark td{
-    font-size: 30px;
-    line-height: 100%;
-    padding: 1px;
   }
 }
 

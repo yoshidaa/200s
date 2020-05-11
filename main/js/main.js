@@ -167,62 +167,6 @@ class BoardManager {
 }
 
 
-class InterfaceManager { // といっても window.onload から constructor に移動しただけ...
-  constructor(){
-    document.getElementById("bm_unthrow").onclick = system_mg.dart_unthrow ;
-    document.getElementById("bm_restart").onclick = function(){
-      if( window.confirm('Are you sure you want to restart game?') ){ system_mg.restart_game(); }
-    };
-
-    document.getElementById("bm_endgame").onclick = function(){
-      if( window.confirm('Are you sure you want to go back to the menu?') ){ system_mg.return_to_menu(); }
-    };
-
-    document.getElementById("bm_return").onclick = function(){
-      panel_mg.update( game_mg );
-      board_mg.hide("board_menu");
-      board_mg.show("button_menu");
-    };
-
-    document.getElementById("button_menu").onclick = function(){
-      var options = Object.keys( game_mg.players[0].options );
-      if( options.length != 0 && game_mg.current_round == 1 && game_mg.current_player_idx == 0 && game_mg.current_player.thrown_darts == 0 ){
-        document.getElementById("bm_options").className = "active";
-        document.getElementById("bm_options").onclick = panel_mg.display_game_option ;
-      }else{
-        document.getElementById("bm_options").className = "inactive";
-        document.getElementById("bm_options").onclick = function(){};
-      }
-      if( game_mg.game == "yamaguchi_a" || game_mg.game == "yamaguchi_b" || game_mg.game == "yamaguchi_c" ){
-        document.getElementById("bm_about").onclick = async function(){
-          document.iframe.location = "./about/" + game_mg.game + ".html";
-          board_mg.hide("board_menu");
-          board_mg.show("board_about");
-          // dirty...
-          await sleep(3000);
-          document.iframe.onclick = function(){
-            board_mg.hide("board_about");
-            board_mg.show("button_menu");
-          };
-        };
-      }else{
-        document.getElementById("bm_about").className = "inactive";
-      }
-      panel_mg.update( game_mg );
-      board_mg.hide("button_menu");
-      board_mg.show("board_menu");
-    };
-
-    document.title = game_mg.game_name + " - " + document.title;
-
-    document.getElementById("board_change").onclick  = keypress_enter;
-    document.getElementById("board_videos").onclick  = keypress_enter;
-    document.getElementById("button_retry").onclick  = function(){ system_mg.restart_game(); };
-    document.getElementById("button_back").onclick   = function(){ system_mg.return_to_menu(); };
-  }
-}
-
-
 class SystemManager {
   constructor(){
     this.mutex_keypress = 0;
@@ -436,10 +380,9 @@ window.onload = function() {
 
   game_mg   = new GameManager(players, gametype, bulltype, options);
   media_mg  = new MediaManager();
-  panel_mg  = new PanelManager();
   board_mg  = new BoardManager();
   system_mg = new SystemManager();
-  iface_mg  = new InterfaceManager();
+  panel_mg  = new PanelManager();
 
   [ "hattrick", "lowton", "highton", "ton80", "black", "bed", "9mark", "whitehorse" ].forEach(function( aname ){
     document.getElementById("award_" + aname).addEventListener( "ended", function() {

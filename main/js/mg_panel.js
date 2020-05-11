@@ -1,6 +1,23 @@
 // -----------------------------------------------------------------
 //  PanelManager
 // -----------------------------------------------------------------
+function put_img( path, opts={} ){
+  var opt_str = "";
+  for(let o in opts){
+    opt_str = " " + o + "=\"" + opts[o] + "\""
+  }
+  return "<img src=\"" + path + "\"" + opt_str + ">";
+}
+
+function addend_decomposition( t, s ){
+  var result = [];
+  for( var i = 0 ; i < Math.floor( t / s ) ; i++ ){
+    result.push( s );
+  }
+  result.push( t % s );
+  return result;
+}
+
 class PanelManager {
   constructor(){
     for( var i = 1 ; i <= 4 ; i++ ){
@@ -33,6 +50,63 @@ class PanelManager {
       document.getElementById("panel_total_mark").style.visibility  = "hidden";
       document.getElementById("panel_total_score").style.visibility = "visibile";
     }
+
+
+    document.getElementById("bm_unthrow").onclick = system_mg.dart_unthrow ;
+    document.getElementById("bm_restart").onclick = function(){
+      if( window.confirm('Are you sure you want to restart game?') ){ system_mg.restart_game(); }
+    };
+
+    document.getElementById("bm_endgame").onclick = function(){
+      if( window.confirm('Are you sure you want to go back to the menu?') ){ system_mg.return_to_menu(); }
+    };
+
+    document.getElementById("bm_return").onclick = function(){
+      panel_mg.update( game_mg );
+      board_mg.hide("board_menu");
+      board_mg.show("button_menu");
+    };
+
+    document.getElementById("button_menu").onclick = function(){
+      var options = Object.keys( game_mg.players[0].options );
+      if( options.length != 0 && game_mg.current_round == 1 && game_mg.current_player_idx == 0 && game_mg.current_player.thrown_darts == 0 ){
+        document.getElementById("bm_options").className = "active";
+        document.getElementById("bm_options").onclick = panel_mg.display_game_option ;
+      }else{
+        document.getElementById("bm_options").className = "inactive";
+        document.getElementById("bm_options").onclick = function(){};
+      }
+      if( game_mg.game == "yamaguchi_a" || game_mg.game == "yamaguchi_b" || game_mg.game == "yamaguchi_c" ){
+        document.getElementById("bm_about").onclick = async function(){
+          document.iframe.location = "./about/" + game_mg.game + ".html";
+          board_mg.hide("board_menu");
+          board_mg.show("board_about");
+          // dirty...
+          document.getElementById("board_main").onclick = function(){
+            board_mg.hide("board_about");
+            board_mg.show("button_menu");
+            document.getElementById("board_main").onclick = function(){};
+          };
+          await sleep(3000);
+          document.iframe.onclick = function(){
+            board_mg.hide("board_about");
+            board_mg.show("button_menu");
+          };
+        };
+      }else{
+        document.getElementById("bm_about").className = "inactive";
+      }
+      panel_mg.update( game_mg );
+      board_mg.hide("button_menu");
+      board_mg.show("board_menu");
+    };
+
+    document.title = game_mg.game_name + " - " + document.title;
+
+    document.getElementById("board_change").onclick  = keypress_enter;
+    document.getElementById("board_videos").onclick  = keypress_enter;
+    document.getElementById("button_retry").onclick  = function(){ system_mg.restart_game(); };
+    document.getElementById("button_back").onclick   = function(){ system_mg.return_to_menu(); };
   }
 
   static copy_tr( ptr ){
@@ -103,6 +177,12 @@ class PanelManager {
     document.getElementById("panel_total_score").style.color = ft_colors[player.id];
 
     // for yamaguchi_a/yamaguchi_b/yamaguchi_c
+    var next_tmt_top     = document.getElementById("panel_game_message").offsetTop + document.getElementById("panel_game_message").offsetHeight;
+    var next_tmt_bottom  = document.getElementById("panel_player_scores").offsetTop;
+    var next_tmt_height  = next_tmt_bottom - next_tmt_top;
+    var next_tmt_marksize= Math.min( ( next_tmt_height - 70 ) / 7, 54 );
+    var markstyle = { "style": "width: " + next_tmt_marksize + ";height: " + next_tmt_marksize };
+
     var total_mark_table = document.getElementById("panel_total_mark");
     var trs              = total_mark_table.getElementsByTagName("tr");
     var tds_number       = total_mark_table.getElementsByClassName("number");
@@ -121,28 +201,20 @@ class PanelManager {
       }
       tds_point[i].innerHTML = "";
       var marks = cr_marks[key];
+      var goal;
       if( game_mg.game == "yamaguchi_a" || game_mg.game == "yamaguchi_b" ){
-        var goal              = game_mg.current_player.options["number_of_marks"];
-        var num_marked_full   = Math.floor( marks / 3 );
-        var num_marked_rem    = marks % 3;
-        var num_unmarked      = Math.max( 0, goal - ( Math.ceil( marks / 3 ) * 3 ) );
-        var num_unmarked_full = Math.floor( num_unmarked / 3 );
-        var num_unmarked_rem  = num_unmarked % 3;
-        var num_marked_rem_bg = ( ( goal % 3 != 0 ) && ( num_unmarked_full == 0 && num_unmarked_rem == 0 ) ) ? goal % 3 : 3 ;
-
-        for( var j = 0 ; j < num_marked_full ; j++ ){   tds_point[i].innerHTML += '<img src="img/mini_mark3.png" />'; }
-        tds_point[i].innerHTML += (num_marked_rem > 0) ? '<img src="img/mini_mark' + num_marked_rem + '_' + num_marked_rem_bg + '.png" />' : "";
-        for( var j = 0 ; j < num_unmarked_full ; j++ ){ tds_point[i].innerHTML += '<img src="img/mini_mark3_gray.png" />'; }
-        tds_point[i].innerHTML += (num_unmarked_rem > 0) ? '<img src="img/mini_mark' + num_unmarked_rem + '_gray.png" />' : "";
-
-        tds_clear[i].innerHTML = (cr_marks[key] >= goal) ? '<img src="img/hanko_taihenyokudekimashita_pink.png" />' : "";
+        goal = game_mg.current_player.options["number_of_marks"];
       }else if( game_mg.game == "yamaguchi_c" ){
-        var opened = (marks >= 3);
-        var rem    = marks % 3;
-        if( opened ){ tds_point[i].innerHTML = '<img src="img/mini_mark3.png" />'; }
-        else{         tds_point[i].innerHTML = '<img src="img/mini_mark' + rem + '_3.png" />'; }
-        tds_clear[i].innerHTML  = (cr_marks[key] >= 3) ? '<img src="img/hanko_taihenyokudekimashita_pink.png" />' : "";
+        goal = 3;
       }
+      var mark_fg = addend_decomposition( marks, 3 );
+      var mark_bg = addend_decomposition( goal,  3 );
+      for( var j = 0 ; j < mark_bg.length ; j++ ){
+        var fg = mark_fg[j] || "0";
+        var bg = mark_bg[j];
+        tds_point[i].innerHTML += put_img( "img/mini_mark" + fg + "_" + bg + ".png", markstyle );
+      }
+      tds_clear[i].innerHTML = (cr_marks[key] >= goal) ? put_img( "img/hanko_taihenyokudekimashita_pink.png", markstyle ) : "";
     }
     total_mark_table.style.left = ( document.getElementById("board_main").clientWidth - total_mark_table.clientWidth ) / 2;
 
@@ -159,7 +231,7 @@ class PanelManager {
         td_score.innerHTML += "<span class=\"percent\">%</span>"
       td_score.style.color           = current ? "#101010"         : "#333";
       td_score.style.backgroundColor = current ? bg_colors[player.id] : "#ccc";
-      td_title.innerHTML             = "Player " + i + " " + ( game_mg.is_top_score(i-1) ? "<img src=\"" + img_crown + "\" class=\"mini_crown\" />" : "" )
+      td_title.innerHTML             = "Player " + i + " " + ( game_mg.is_top_score(i-1) ? put_img(img_crown, {"class": "mini_crown"}) : "" )
       td_title.style.color           = current ? "#000"            : "#ccc" ;
       td_title.style.backgroundColor = current ? ft_colors[player.id] : "#333";
 
@@ -171,7 +243,7 @@ class PanelManager {
       var td_awards = document.getElementById("result_player"+i+"awards");
       document.getElementById("result_stats_title").innerHTML = game_mg.stats_type ;
 
-      td_winner.innerHTML = game_mg.is_top_score(i-1) ? "<img src=\"" + img_crown + "\" class=\"crown\" />" : "";
+      td_winner.innerHTML = game_mg.is_top_score(i-1) ? put_img(img_crown, {"class": "crown"}) : "";
       td_darts.innerHTML = game_mg.players[i-1].total_thrown_darts;
       td_score.innerHTML = ( score == -1 ) ? "No Score" : score;
       if( game_mg.players[i-1].score_mode == "total_marks_percent" )
@@ -218,7 +290,7 @@ class PanelManager {
         var marks = game_mg.current_player.round_marks( i );
         tr.cells[1].innerHTML = "";
         for( var j = 0 ; j < marks.length ; j++ ){
-          tr.cells[1].innerHTML += '<img src="img/mini_mark' + marks[j] + '.png" class="mini_mark"/>';
+          tr.cells[1].innerHTML += put_img("img/mini_mark"+marks[j]+".png", {"class": "mini_mark"});
         }
       }
       tr.style.display = ( game_mg.current_round - i + 1 > lines ) ? "none" : "table-row";
