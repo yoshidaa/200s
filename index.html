@@ -7,8 +7,9 @@
   <link rel="stylesheet" href="./css/main.css" media="all">
   <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
   <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
-  <script type="text/javascript" src="./js/viewport.js"></script>
+  <script type="text/javascript" src="./main/js/ylib.js"></script>
   <script type="text/javascript" src="./js/menu.js"></script>
+  <script type="text/javascript" src="./js/viewport.js"></script>
   <link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet'>
   <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet'>
 </head>
@@ -73,11 +74,22 @@
     
   </div>
 
-  <div id="button_config" class="button">
-    <div></div>
-    <div></div>
-    <div></div>
+  <div id="board_menu" class="board">
+    <p class="menu_title">
+      YDarts System Menu
+    </p>
+    <ul>
+      <li id="bm_about"  class="active">ABOUT THIS SYSTEM</li>
+      <li id="bm_config" class="active">BOARDMAP CONFIGURATION</li>
+      <li id="bm_return" class="active">RETURN TO GAME MENU</li>
+    </ul>
   </div>
+
+  <div id="board_about" class="board">
+    <iframe id="about_game" name="iframe">IFrame is not supported..</iframe>
+  </div>
+
+  <div id="button_menu" class="button"><div></div><div></div><div></div></div>
 </div>
 
 </body>

@@ -5,56 +5,6 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-class SystemGlue {
-  static key_to_sound( key, game, bull ){
-    var target = key;
-    if( key == "CH" ){ return "change" ; }
-
-    if( game == "big_bull" ){
-      if( key == "SB" ){ target = "d_bull"; }
-      else if( key == "DB" ){ target = "u_bull"; }
-      else if( key[0] == "I" ){ target = "s_bull"; }
-      else if( key[1] == "S" ){ target = "single"; }
-      else if( key[0] == "D" ){ target = "double"; }
-      else if( key[0] == "T" && ( Number(key.substr(1,2)) <= 14 ) ){ target = "triple"; }
-    }else if( game == "bull_shoot" ){
-      if( key == "SB" ){ target = "s_bull"; }
-      else if( key == "DB" ){ target = "d_bull"; }
-      else { target = "dummy" ; }
-    }else{
-      if( game_mg.current_player.is_valid_area( key ) ){
-        if( key == "SB" ){ target = "s_bull"; }
-        else if( key == "DB" ){ target = "d_bull"; }
-        else if( key[1] == "S" ){ target = "single"; }
-        else if( key[0] == "D" ){ target = "double"; }
-        else if( key[0] == "T" && ( Number(key.substr(1,2)) <= 14 ) ){ target = "triple"; }
-      }else{
-        target = "dummy" ;
-      }
-    }
-    return target;
-  }
-
-  static key_to_dart( key ){
-    var dart = ( key[1] == "S" ) ? Number( key.substr( 2, 3 ) ) : key;
-    dart = ( dart == "SB" ) ? "<span class=\"history_bull\">S-Bull</span>" : dart;
-    dart = ( dart == "DB" ) ? "<span class=\"history_bull\">D-Bull</span>" : dart;
-    return dart;
-  }
-
-  static score_to_class( score ){
-    var span_class = "normal";
-    if( score > 150 ){
-      span_class = "highton";
-    }else if( score >= 100 ){
-      span_class = "lowton";
-    }
-
-    return span_class;
-  }
-}
-
-
 // -----------------------------------------------------------------
 //  MediaManager
 // -----------------------------------------------------------------
@@ -65,21 +15,21 @@ class MediaManager {
   }
 
   play_sound( target ){
-    document.getElementById("sound_" + target).play();
+    Y.id("sound_" + target).play();
   }
 
   play_award( award_name ){
     this.playing_award = "award_" + award_name;
-    var target = document.getElementById(this.playing_award);
+    var target = Y.id(this.playing_award);
     if( target.tagName == "VIDEO" ){
-      board_mg.hide("button_menu");
-      board_mg.hide("board_main");
+      Y.hide("button_menu");
+      Y.hide("board_main");
     }
     target.play();
   }
 
   stop_award(){
-    var target = document.getElementById(this.playing_award);
+    var target = Y.id(this.playing_award);
     if( target.tagName == "VIDEO" ){
       target.pause();
       target.currentTime = 0;
@@ -90,54 +40,10 @@ class MediaManager {
 
 
 class BoardManager {
-  constructor(){
-    this.hide_board_round = function() {
-      document.getElementById("board_round").style.visibility = "hidden";
-    };
-    this.hide_board_next  = function() {
-      document.getElementById("board_next").style.visibility = "hidden";
-    };
-    this.hide_board_remove_darts = function() {
-      document.getElementById("board_remove_darts").style.visibility = "hidden";
-    };
-  }
-
-  async display_remove_darts(){
-    var board = document.getElementById("board_remove_darts");
-    board.removeEventListener('animationend', this.hide_board_remove_darts);
-    board.style.visibility = "visible";
-    board.style.animation = "slide_i 0.3s";
-    await sleep(1200);
-    board.style.animation = "slide_o 0.3s";
-    board.addEventListener('animationend', this.hide_board_remove_darts);
-  }
-
-  async display_round( message ){
-    var board = document.getElementById("board_round");
-    board.innerHTML = "<p class=\"message\">" + message + "</p>";
-    board.removeEventListener('animationend', this.hide_board_round);
-    board.style.visibility = "visible";
-    board.style.animation = "slide_i 0.3s";
-    await sleep(1000);
-    board.style.animation = "slide_o 0.3s";
-    board.addEventListener('animationend', this.hide_board_round);
-  }
-
-  async display_next_player(){
-    var board = document.getElementById("board_next");
-    board.innerHTML = "<p class=\"message\">Next Player<br />Player " + ( game_mg.current_player.id + 1 ) + "</p>";
-    board.removeEventListener('animationend', this.hide_board_next);
-    board.style.visibility = "visible";
-    board.style.animation = "slide_i 0.3s";
-    await sleep(1000);
-    board.style.animation = "slide_o 0.3s";
-    board.addEventListener('animationend', this.hide_board_next);
-  }
-
-  async display_mark_award(){
+  static async display_mark_award(){
     var marks = game_mg.current_player.current_marks ;
-    var tds = document.getElementById("board_nmark").getElementsByTagName("td");
-    board_mg.show("board_nmark");
+    var tds = Y.id("board_nmark").getElementsByTagName("td");
+    Y.show("board_nmark");
     for( var i = 0 ; i < 3 ; i++ ){
       await sleep(700);
       if( marks[i] != 0 ){
@@ -148,22 +54,18 @@ class BoardManager {
       }
     }
     await sleep(1000);
-    board_mg.hide("board_nmark");
+    Y.hide("board_nmark");
     system_mg.stop_award();
     for( var i = 0 ; i < 3 ; i++ ){
       tds[i].innerHTML = "";
     }
   }
 
-  async display_bust(){
-    board_mg.show("board_bust");
-    await sleep(2000);
-    board_mg.hide("board_bust");
+  static slide_in( target_id )  { Y.id(target_id).style.animation  = "slide_i 0.3s";}
+  static slide_out( target_id ) {
+    Y.id(target_id).style.animation = "slide_o 0.3s";
+    Y.id(target_id).addEventListener("animationend", function(){ Y.hide(target_id); }, { once: true } );
   }
-
-  is_shown( target ){ return (document.getElementById(target).style.visibility == "visible"); }
-  show( target )    { document.getElementById(target).style.visibility = "visible"; }
-  hide( target )    { document.getElementById(target).style.visibility = "hidden";  }
 }
 
 
@@ -175,73 +77,88 @@ class SystemManager {
   }
 
   async change_player(){
-    board_mg.hide("board_change");
+    Y.hide("board_change");
     game_mg.change_player();
-
+    var board;
     // --- board routine -----------------------------------------------------
     if( !( game_mg.current_player.id == 0 && game_mg.current_round == 1 ) ){
       media_mg.play_sound("change");
-      board_mg.display_remove_darts();
+      board = "board_remove";
+      BoardManager.slide_in(board);
+      Y.show(board);
       await sleep(1200);
+      BoardManager.slide_out(board);
+      panel_mg.update( game_mg );
     }
 
     var start_sound = "start";
     if( game_mg.current_player.id == 0 ){
       start_sound = ( game_mg.final_round ) ? "startFF" : "startF";
     }
-
     media_mg.play_sound(start_sound);
-    panel_mg.update( game_mg );
 
     if( game_mg.current_player.id == 0 ){
       var message = game_mg.final_round ? "Final Round" : "Round " + game_mg.current_round ;
-      board_mg.display_round( message );
+      board = "board_round";
+      Y.id(board).innerHTML = "<p class=\"message\">" + message + "</p>";
+      BoardManager.slide_in(board);
+      Y.show(board);
       await sleep(1000);
+      BoardManager.slide_out(board);
     }
 
-    board_mg.display_next_player();
+    board = "board_next";
+    var colors = [ "#FFAA01", "#1CE6FE", "#FF0000", "#00FF00" ];
+    // Y.id(board).style.color = colors[game_mg.current_player.id];
+    var message = "Next Player<br />" + Y.t_span( "Player " + (game_mg.current_player.id + 1), { "class": "player" + (game_mg.current_player.id + 1) } );
+    Y.id(board).innerHTML = "<p class=\"message\">" + message + "</p>";
+    BoardManager.slide_in(board);
+    Y.show(board);
+    await sleep(1000);
+    BoardManager.slide_out(board);
   }
 
   async bust(){
     media_mg.play_sound("bust");
-    board_mg.display_bust();
+    Y.show("board_bust");
     await sleep(2000);
+    Y.hide("board_bust");
     game_mg.recalc();
     panel_mg.update( game_mg );
-    board_mg.show("board_change");
+    Y.show("board_change");
   }
 
   play_award(){
     var award_name = game_mg.current_player.check_award();
     panel_mg.update( game_mg );
     if( award_name != null ){
-      if( document.getElementById( "award_" + award_name ).tagName != "VIDEO" ){
+      if( Y.id( "award_" + award_name ).tagName != "VIDEO" ){
         this.wait_award_ended = true ;
       }
       media_mg.play_award( award_name );
-      board_mg.show( media_mg.playing_award );
+      Y.show( media_mg.playing_award );
     }
     return ( award_name != null );
   }
 
   stop_award(){
     this.wait_award_ended = false;
-    board_mg.hide( media_mg.playing_award );
+    Y.hide( media_mg.playing_award );
     media_mg.stop_award();
     if( this.check_end() ){
       this.game_over();
     }else{
-      board_mg.show("board_change");
+      Y.show("board_change");
     }
-    board_mg.show("button_menu");
-    board_mg.show("board_main");
+    Y.show("button_menu");
+    Y.show("board_main");
   }
 
   game_over(){
     media_mg.play_sound("out");
     game_mg.recalc();
     panel_mg.update( game_mg );
-    board_mg.show("board_result");
+    Y.show("board_result");
   }
 
   dart_unthrow(){
@@ -260,13 +177,13 @@ class SystemManager {
   }
 
   dart_update( key ){
-    media_mg.play_sound( SystemGlue.key_to_sound( key, game_mg.game, game_mg.bull_type ) );
+    media_mg.play_sound( game_mg.key_to_sound( key ) );
     game_mg.update( key );
     panel_mg.update( game_mg, true );
   }
 
   async input_handling( key ){
-    if( this.mutex_keypress == 0 && !this.wait_award_ended && !board_mg.is_shown("board_menu") ){
+    if( this.mutex_keypress == 0 && !this.wait_award_ended && !Y.is_shown("board_menu") ){
       this.mutex_keypress = 1;
       var changed = ( key == 'CH' );
       if( changed ){
@@ -281,7 +198,7 @@ class SystemManager {
           return ;
         }
         this.change_player();
-      }else if( ( media_mg.playing_award == null ) && ( !board_mg.is_shown("board_change") ) ){
+      }else if( ( media_mg.playing_award == null ) && ( !Y.is_shown("board_change") ) ){
         if ( game_mg.current_player.thrown_darts < 3 ){ this.dart_update( key ); }
         await sleep(700);
         if( game_mg.current_player.is_bust ){
@@ -296,7 +213,7 @@ class SystemManager {
           game_mg.current_player.finish_round();
           var award_played = this.play_award();
           if( !award_played ){
-            board_mg.show("board_change");
+            Y.show("board_change");
           }
         }
       }
@@ -347,11 +264,9 @@ function keypress_enter(){ document.dispatchEvent( new KeyboardEvent( "keypress"
 var game_mg   = null;
 var media_mg  = null;
 var panel_mg  = null;
-var board_mg  = null;
 var system_mg = null;
-var iface_mg  = null;
-var boardmap ;
 
+var boardmap ;
 var category;
 
 function getUrlParameter(name) {
@@ -374,26 +289,25 @@ window.onload = function() {
     boardmap = JSON.parse( Cookies.get( "boardmap" ) );
   }else{
     boardmap = boardmap_org ;
-    document.getElementById("panel_system_message").innerHTML = "Boardmap is not set.<br />Please set on <a href=\"../config/index.html\">Configuration Page</a>.";
-    document.getElementById("panel_system_message").style.visibility = "visible";
+    Y.id("panel_system_message").innerHTML = "[Warning] Boardmap is not set.<br />Please set on <a href=\"../config/index.html\">Configuration Page</a>.";
+    Y.id("panel_system_message").style.visibility = "visible";
   }
 
   game_mg   = new GameManager(players, gametype, bulltype, options);
   media_mg  = new MediaManager();
-  board_mg  = new BoardManager();
   system_mg = new SystemManager();
   panel_mg  = new PanelManager();
 
   [ "hattrick", "lowton", "highton", "ton80", "black", "bed", "9mark", "whitehorse" ].forEach(function( aname ){
-    document.getElementById("award_" + aname).addEventListener( "ended", function() {
+    Y.id("award_" + aname).addEventListener( "ended", function() {
       system_mg.stop_award();
     });
   });
 
-  document.getElementById("award_5mark").play = board_mg.display_mark_award;
-  document.getElementById("award_6mark").play = board_mg.display_mark_award;
-  document.getElementById("award_7mark").play = board_mg.display_mark_award;
-  document.getElementById("award_8mark").play = board_mg.display_mark_award;
+  Y.id("award_5mark").play = BoardManager.display_mark_award;
+  Y.id("award_6mark").play = BoardManager.display_mark_award;
+  Y.id("award_7mark").play = BoardManager.display_mark_award;
+  Y.id("award_8mark").play = BoardManager.display_mark_award;
 
   document.addEventListener('keypress', function(e) {
     for (let key in boardmap) {
@@ -404,6 +318,6 @@ window.onload = function() {
   });
 
   panel_mg.update( game_mg );
-  board_mg.show("board_main");
-  document.getElementById('board_loading').classList.add('loaded');
+  Y.show("board_main");
+  Y.id('board_loading').classList.add('loaded');
 }

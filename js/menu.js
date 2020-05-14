@@ -1,3 +1,6 @@
+// -----------------------------------------------------------------
+//  Global functions
+// -----------------------------------------------------------------
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -120,7 +123,12 @@ window.onload = function() {
   document.getElementById("rb_player_3").onchange = checked_player ;
   document.getElementById("rb_player_4").onchange = checked_player ;
 
-  document.getElementById("button_config").onclick = function(){ window.location.href = './config/index.html' } ;
+  document.getElementById("bm_config").onclick = function(){ window.location.href = './config/index.html' } ;
+
+  Y.id("bm_return").onclick = function(){
+    Y.hide("board_menu");
+    Y.show("button_menu");
+  };
 
   category = getUrlParameter("category");
   game     = getUrlParameter("game");
@@ -134,4 +142,28 @@ window.onload = function() {
       }
     }
   }
+
+  Y.id("button_menu").onclick = function(){
+    Y.id("bm_about").onclick = async function(){
+      document.iframe.location = "./about/ydarts.html";
+      Y.hide("board_menu");
+      Y.show("board_about");
+      await sleep(20);
+      Y.id("board_main").onclick = function(){
+        Y.hide("board_about");
+        Y.show("button_menu");
+        Y.id("board_main").onclick = function(){};
+      };
+      // dirty...
+      await sleep(2000);
+      document.iframe.onclick = function(){
+        Y.hide("board_about");
+        Y.show("button_menu");
+      };
+    };
+    Y.hide("button_menu");
+    Y.show("board_menu");
+  }
+  
+  Y.show("board_main");
 }

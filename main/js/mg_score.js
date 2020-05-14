@@ -45,9 +45,9 @@ class Player {
       this.initial_score   = ivalue ;
       this.score_mode      = "zeroone";
       this.stats_type      = "PPD";
-      this.options         = { "out": "OPEN", "bull": "50_50" };
-      this.opt_candidates  = { "out": [ "OPEN", "MASTER", "DOUBLE" ],
-                               "bull": [ "50_50", "25_50" ] };
+      this.options         = { "bull": "50_50", "out": "OPEN" };
+      this.opt_candidates  = { "bull": [ "50_50", "25_50" ],
+                               "out": [ "OPEN", "MASTER", "DOUBLE" ] };
     }else if( game_code == "yamaguchi_a" ){
       this.category        = "cricket" ;
       this.game            = game_code;
@@ -503,6 +503,23 @@ class GameManager {
     }
   }
 
+  static get awards(){
+    return {
+      "hattrick":   "HAT TRICK",
+      "lowton":     "LOW TON",
+      "highton":    "HIGH TON",
+      "ton80":      "TON80",
+      "black":      "3 IN THE BLACK",
+      "bed":        "3 IN A BED",
+      "9mark":      "9MARK",
+      "8mark":      "8MARK",
+      "7mark":      "7MARK",
+      "6mark":      "6MARK",
+      "5mark":      "5MARK",
+      "whitehorse": "WHITE HORSE"
+    };
+  }
+
   change_player(){
     this.current_player_idx = ( this.current_player_idx + 1 ) % this.num_players;
     if( this.current_player_idx == 0 ) this.change_round();
@@ -558,5 +575,35 @@ class GameManager {
     }
     var top_score = ( this.score_mode == "zeroone" ) ? Math.min(...temp) : Math.max(...temp) ;
     return ( this.players[player].total_score == top_score );
+  }
+
+
+  key_to_sound( key ){
+    var target = key;
+    var game = this.game ;
+    var bull = this.bull_type ;
+    if( game == "big_bull" ){
+      if( key == "SB" ){ target = "d_bull"; }
+      else if( key == "DB" ){ target = "u_bull"; }
+      else if( key[0] == "I" ){ target = "s_bull"; }
+      else if( key[1] == "S" ){ target = "single"; }
+      else if( key[0] == "D" ){ target = "double"; }
+      else if( key[0] == "T" && ( Number(key.substr(1,2)) <= 14 ) ){ target = "triple"; }
+    }else if( game == "bull_shoot" ){
+      if( key == "SB" ){ target = "s_bull"; }
+      else if( key == "DB" ){ target = "d_bull"; }
+      else { target = "dummy" ; }
+    }else{
+      if( this.current_player.is_valid_area( key ) ){
+        if( key == "SB" ){ target = "s_bull"; }
+        else if( key == "DB" ){ target = "d_bull"; }
+        else if( key[1] == "S" ){ target = "single"; }
+        else if( key[0] == "D" ){ target = "double"; }
+        else if( key[0] == "T" && ( Number(key.substr(1,2)) <= 14 ) ){ target = "triple"; }
+      }else{
+        target = "dummy" ;
+      }
+    }
+    return target;
   }
 }

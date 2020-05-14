@@ -1,17 +1,15 @@
-﻿body{
-  padding: 0px;
-  margin: 0px;
+﻿/* -----------------------------------------------------------------
+ *  Common
+ * -------------------------------------------------------------- */
+
+body{
+  padding: 0;
+  margin: 0;
   height: 100%;
   width: 100%;
   background-color: #222;
 }
 
-span.history_bull    { font-size: large; font-weight: bold; color: red; }
-span.history_highton { color: #ED2878; }
-span.history_lowton  { color: #F7E61A; }
-span.history_normal  { color: #FFFFFF; }
-
-/* Default td */
 td{
   font-family: 'Oswald', sans-serif;
   font-size: x-large;
@@ -24,40 +22,303 @@ td{
   padding: 2px;
 }
 
-table#panel_player_scores { width: 60%; left: 20%;   bottom: 18px; }
-table#panel_history       {             right: 8px; }
-table#panel_information   {             left: 8px; }
+div.panel  { position: fixed; }
+table.panel{ position: fixed; }
 
-table#panel_result { width: 60%; left: 20%; height: 40%;  bottom: 30%; }
+div.board{
+  visibility: hidden;
+  position:   fixed;
+  top:        0;
+  left:       0;
+  width:      100%;
+  height:     100%;
+  text-align: center;
+  padding:    8px;
+  cursor:     pointer;
+}
 
+div.board p.message{
+  position: absolute;
+  top:      0;
+  bottom:   0;
+  width:    100%;
+  margin:   auto;
+}
+
+td span.round{ font-size: 50px; line-height: 50px; }
+span.little_strong{ color: #ff6; }
+span.percent{ font-size: xx-large; margin: 0; line-height: 0; }
+img.crown{ width: 60px; margin: 0; line-height: 0; }
+img.mini_crown{ height: 28px; margin: 0; line-height: 0; }
+img.mini_mark{ width: 32px; height: 32px; margin: 0 3px; }
+
+span.history_bull    { font-size: large; font-weight: bold; color: red; }
+span.history_highton { color: #ED2878; }
+span.history_lowton  { color: #F7E61A; }
+span.history_normal  { color: #FFFFFF; }
+
+.player1{ color: #FFAA01; }
+.player2{ color: #1CE6FE; }
+.player3{ color: #FF0000; }
+.player4{ color: #00FF00; }
+
+@keyframes slide_i {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(0); }
+}
+
+@keyframes slide_o {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(100%); }
+}
+
+
+/* -----------------------------------------------------------------
+ *  Board - Main
+ * -------------------------------------------------------------- */
+div#board_main          {                                                    z-index: 0; }
+
+    /* -- Panel - Total Score ------------------------------------------------- */
+div#panel_total_score   { width: 100%; height: 100%; top: 0; bottom: 0; }
+div#panel_total_score   { text-align: center; font-size: 380px; margin: 0; padding: 0; }
+div#panel_total_score  p{
+  font-family: 'Lato';
+  text-shadow: 10px 10px 20px #333; 
+  position: absolute;
+  line-height: 100%;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  height: 60%;
+  margin: auto;
+}
+
+
+    /* -- Panel - Marks ------------------------------------------------------- */
+table#panel_total_mark             { border: 5px solid #333; }
+table#panel_total_mark   img       { width: 54px; height: 54px; margin: 0; }
+table#panel_total_mark   td        { height: 10%; font-size: 40px; }
+table#panel_total_mark   td.number { color: #333; width: 80px; }
+table#panel_total_mark   td.clear  { width: 80px; }
+table#panel_total_mark   td.point  {
+  font-size: 60px;
+  line-height: 60px;
+  letter-spacing: -15px;
+  vertical-align: middle;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+
+    /* -- Panel - Scores ------------------------------------------------------ */
+table#panel_player_scores          { width: 60%; left: 20%;   bottom: 18px; }
 table#panel_player_scores td.title { color: #ccc; background-color: #333; }
 table#panel_player_scores td.score { color: #333; background-color: #ccc; }
-
 table#panel_player_scores td.title { font-size: x-large; line-height: 140%; text-align: center; }
 table#panel_player_scores td.score { font-size: 80px;    line-height: 120%; text-align: right;  padding-right: 6px; }
 table#panel_player_scores td.score { font-family: 'Lato'; }
 
+    /* -- Panel - History ----------------------------------------------------- */
+table#panel_history                { right: 8px; }
 table#panel_history       td       { width: 2em; }
 table#panel_history       td.title { font-size: large; }
 table#panel_history       td.round { width: 1.5em; text-align: right; padding-right: 10px; }
 
+    /* -- Panel - Information ------------------------------------------------- */
+table#panel_information            { left: 8px; }
 table#panel_information   td.round { width: 3em; }
 table#panel_information   td.total { width: 5em; }
 
-tr#tr_result_awards td.score{
-  font-size: medium;
-  color: #ccc;
-  padding-left: 5px;
-  text-align: left;
+    /* -- Panel - Othres ------------------------------------------------------ */
+div#panel_system_message           { width: 50%; height: 30% left: initial; right: 5%; top: 50%; }
+div#panel_system_message           { font-size: 25px; background-color: #333; opacity: 0.9; color: #fff; }
+div#panel_system_message a:link    { color: #fcc; }
+div#panel_system_message a:visited { color: #fcc; }
+
+div#panel_game_message             { width: 60%; height: 70px; left: 20%; top: 10px; }
+div#panel_game_message             { background-color: #333; padding-top: 5px; color: #ccc; opacity: 0.9; }
+div#panel_game_message   strong    { color: #ff6; font-size: 60px; }
+div#panel_game_message   p         { margin: auto; line-height: 70px; vertical-align: middle; height: 70px; font-size: 40px; }
+
+
+
+/* -----------------------------------------------------------------
+ *  Board - Award
+ *  
+ * -------------------------------------------------------------- */
+div#board_videos           { z-index: 9; }
+div#board_audios           { display: none; }
+
+div#board_videos video {
+  visibility: hidden;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
-td.player1{ color: #FFAA01; }
-td.player2{ color: #1CE6FE; }
-td.player3{ color: #FF0000; }
-td.player4{ color: #00FF00; }
+div#board_nmark      { background-color: #000; opacity: 0.9;  z-index: 1; }
+div#board_nmark table{ width: 100%; height: 90%; background-color: transparent; border: 0; }
+div#board_nmark tr   { border: 0; }
+div#board_nmark td   { border: 0; padding: 0; margin: 0; background-color: transparent; width: 33%; font-size: 300px }
 
-img.mini_mark{
-  width: 32px;
-  height: 32px;
-  margin: 0px 3px;
+
+
+/* -----------------------------------------------------------------
+ *  Board - Result
+ * 
+ * -------------------------------------------------------------- */
+
+div#board_result               { color: #ff0; background-color: #000; opacity: 0.95; z-index: 2; }
+div#board_result p             { font-size: 70px; text-align: center; color: #ccc; }
+/* div#board_result              { visibility: visible } */
+
+table#panel_result             { width: 60%; left: 20%; height: 40%;  bottom: 30%; }
+tr#tr_result_awards   td.score { font-size: medium; color: #ccc; padding-left: 5px; text-align: left; }
+
+div#panel_result_control       { width: 100%; height: 10%; bottom: 10%; }
+div#panel_result_control input {
+  width: 300px;
+  height: 50px;
+  line-height: 50px;
+  margin: 30px;
+  color: #333;
+  background-color: #ccc;
+  border: 2px solid #333;
+  border-radius: 10px;
+  font-size: 30px;
 }
+
+
+
+/* -----------------------------------------------------------------
+ *  Board - Menu - Root
+ * 
+ * -------------------------------------------------------------- */
+div#board_menu   { color: #ff0; background-color: #000; opacity: 0.95; z-index: 2; }
+div#board_menu   { width: 62%;  height: 80%; left: 19%; top: initial; bottom: 10%; }
+div#board_menu   { padding: 0; }
+
+div#button_menu{
+  position: fixed;
+  width: 64px;
+  height: 58px;
+  padding-top: 13px;
+  border-radius: 5px;
+  right: 20px;
+  bottom: 20px;
+  border: 2px solid #ccc;
+}
+
+div#button_menu:hover{ background-color: #fff; }
+
+div#button_menu div{
+  position: relative;
+  left: 0;
+  height: 8px;
+  width: 50px;
+  margin-bottom: 10px;
+  background-color: #999;
+  border: 2px; solid #999;
+  border-radius: 2px;
+  display: inline-block;
+  box-sizing: border-box;
+}
+
+div#board_menu p.menu_title{
+  display: inline-block;
+  font-size: xx-large;
+  background-color: #2055AB;
+  margin: 0;
+  margin-bottom: 15px;
+  color: #fff;
+  line-height: 200%;
+  width: 100%;
+}
+
+div#board_menu ul{
+  position: relative;
+  margin:0px;
+  padding:0px;
+  height: 50%;
+  list-style: none;
+  text-align: center;
+}
+
+div#board_menu ul li{
+  font-family: 'Lato';
+  box-sizing: border-box;
+  display: inline-block;
+  line-height: 120%;
+  width: 70%;
+  color: #333;
+  border-radius: 10px;
+  font-size: xx-large;
+  background-color: #ccc;
+  border: 1px solid #ccc;
+  margin: 15px auto;
+  padding: 5px;
+}
+
+div#board_menu ul li.inactive    { color: #999; }
+div#board_menu ul li:hover.active{ color: #ccc; background-color: #333; }
+
+
+/* -----------------------------------------------------------------
+ *  Board - Menu - About
+ * 
+ * -------------------------------------------------------------- */
+div#board_about            { padding: 0; color: #ff0; background-color: #000; opacity: 0.95; z-index: 2; }
+div#board_about            { width: 80%; height: 80%; left: 10%; top: 10%; }
+div#board_about iframe     { width: 100%; height: 100%; margin: 0; cursor: pointer; }
+
+
+/* -----------------------------------------------------------------
+ *  Board - Menu - Game Option
+ * 
+ * -------------------------------------------------------------- */
+div#board_game_option      { color: #ff0; background-color: #000; opacity: 0.95; z-index: 2; }
+div#board_game_option      { width: 80%; height: 80%; left: 10%; top: 10%; }
+div#board_game_option h2   { margin: 10px 2px 30px; font-size: xx-large; }
+div#board_game_option input{
+  width: 300px;
+  height: 70px;
+  font-size: 30px;
+  color: #333;
+  cursor: pointer;
+  background-color: #ccc;
+  border: 2px solid #333;
+  border-radius: 5px;
+  margin: auto;
+  bottom: 15px;
+  animation: pop_in 0.5s;
+}
+
+table#panel_game_option                   { position: relative; }
+table#panel_game_option                   { width: 80%; height: 55%; margin: auto; background-color: #ccc; }
+table#panel_game_option           td.title{ width: 120px; }
+table#panel_game_option tr.header td      { height: 10px; }
+table#panel_game_option tr        td      { height: 30%; font-size: xx-large;}
+
+
+/* -----------------------------------------------------------------
+ *  Board - Message Boards
+ * 
+ * -------------------------------------------------------------- */
+div#board_change   { color: #ccc; background-color: #000; opacity: 0.95;  z-index: 1; }
+div#board_change p { height: 200px; font-size: 70px; }
+
+div#board_remove   { color: #ccc; background-color: #000; opacity: 0.95;  z-index: 1; }
+div#board_remove p { height: 200px; font-size: 90px; }
+
+div#board_round    { color: #fff; background-color: #000; opacity: 0.95;  z-index: 1; }
+div#board_round  p { height: 300px; font-size: 150px; }
+
+div#board_next     { color: #fff; background-color: #000; opacity: 0.95;  z-index: 1; }
+div#board_next   p { height: 300px; font-size: 70px; }
+
+div#board_bust     { color: #0cf; background-color: #000; opacity: 0.95;  z-index: 1; }
+div#board_bust   p { height: 100%; margin-left: -10%; font-size: 700px; text-shadow: 10px 10px 20px #336; transform: rotate(-25deg); }

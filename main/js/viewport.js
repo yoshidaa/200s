@@ -11,6 +11,9 @@ function updateMetaViewport(){
   if( rate < 1 ){
   //  document.querySelector("meta[name='viewport']").setAttribute("content", viewportContent);
   }
+  if( panel_mg != undefined ){
+    panel_mg.update( game_mg );
+  }
 }
 
 window.addEventListener("resize",            updateMetaViewport, false);

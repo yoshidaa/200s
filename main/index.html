@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=1280">
   <meta name="mobile-web-app-capable" content="yes">
   <link rel="shortcut icon" type="image/x-icon" href="../favicon.ico">
-  <script type="text/javascript" src="../js/viewport.js"></script>
+  <script type="text/javascript" src="./js/ylib.js"></script>
   <script type="text/javascript" src="./js/keymap.js"></script>
   <script type="text/javascript" src="./js/boardmap.js"></script>
   <script type="text/javascript" src="./js/area.js"></script>
@@ -13,10 +13,10 @@
   <script type="text/javascript" src="./js/mg_panel.js"></script>
   <script type="text/javascript" src="./media/media.js"></script>
   <script type="text/javascript" src="./js/main.js"></script>
+  <script type="text/javascript" src="./js/viewport.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
   <link rel="stylesheet" href="./css/loading.css" media="all">
   <link rel="stylesheet" href="./css/main.css" media="all">
-  <link rel="stylesheet" href="./css/board.css" media="all">
   <link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet'>
   <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet'>
 </head>
@@ -76,36 +76,16 @@
     </tr>
   </table>
 
-  <div id="panel_system_message" class="panel">
-    
-  </div>
+  <div id="panel_system_message" class="panel"></div>
 
-  <div id="button_menu" class="button">
-    <div></div>
-    <div></div>
-    <div></div>
-  </div>
+  <div id="button_menu" class="button"><div></div><div></div><div></div></div>
 </div>
 
-<div id="board_change" class="board">
-  <p class="message">Press Change Button</p>
-</div>
-
-<div id="board_round" class="board">
-  <p class="message">Round 0</p>
-</div>
-
-<div id="board_remove_darts" class="board">
-  <p class="message">Remove Darts</p>
-</div>
-
-<div id="board_bust" class="board">
-  <p class="message">Bust</p>
-</div>
-
-<div id="board_next" class="board">
-  <p class="message">Next Player<br />Player 1</p>
-</div>
+<div id="board_change" class="board"><p class="message">Press Change Button</p></div>
+<div id="board_round"  class="board"><p class="message">Round 0</p></div>
+<div id="board_remove" class="board"><p class="message">Remove Darts</p></div>
+<div id="board_bust"   class="board"><p class="message">Bust</p></div>
+<div id="board_next"   class="board"><p class="message">Next Player<br />Player 1</p></div>
 
 <div id="board_result" class="board">
   <p id="board_result_title">Result</p>
@@ -162,7 +142,7 @@
     </tr>
   </table>
 
-  <div id="panel_control" class="panel">
+  <div id="panel_result_control" class="panel">
     <input type="button" id="button_back" value="Main Menu"> <input type="button" id="button_retry" value="Retry">
   </div>
 </div>
