@@ -34,7 +34,6 @@ div.board{
   height:     100%;
   text-align: center;
   padding:    8px;
-  cursor:     pointer;
 }
 
 div.board p.message{
