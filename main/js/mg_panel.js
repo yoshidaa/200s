@@ -242,7 +242,7 @@ class PanelManager {
       td_darts.innerHTML = game_mg.players[i-1].total_thrown_darts;
       td_score.innerHTML = ( score == -1 ) ? "No Score" : score;
       if( game_mg.players[i-1].score_mode == "total_marks_percent" )
-        td_score.innerHTML += + " %"
+        td_score.innerHTML += " %"
       td_stats.innerHTML = game_mg.players[i-1].total_stats;
       var awards = game_mg.players[i-1].total_awards;
       var awards_str = [];
