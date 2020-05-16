@@ -108,7 +108,7 @@ class Player {
   get total_marks()       { return this.total_data["marks"]; }
   get total_awards()      { return this.total_data["awards"]; }
 
-  get thrown_darts()      { return this.round_finished ? 3 : this.current_round_data["darts"].length ; }
+  get thrown_darts()      { return ( !this.is_game_out && this.round_finished ) ? 3 : this.current_round_data["darts"].length ; }
   get total_thrown_darts(){ return ( this.current_round - 1 ) * 3 + this.thrown_darts ; }
 
   get initial_marks()     { return { "20": 0, "19": 0, "18": 0, "17": 0, "16": 0, "15": 0, "BULL": 0 }; }
