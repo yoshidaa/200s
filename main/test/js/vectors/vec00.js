@@ -27,11 +27,13 @@ vecs["count_up"] = {
   "exps": {
     "result": [
       { "darts": 24,
+        "winner": true,
         "score": 1050,
         "awards": { "lowton": 6, "highton": 1, "ton80": 1 },
         "stats": 43.75
         },
       { "darts": 24,
+        "winner": true,
         "score": 1050,
         "awards": { "lowton": 6, "highton": 1, "ton80": 1 },
         "stats": 43.75
@@ -67,6 +69,7 @@ vecs["cr_count_up"] = {
   "exps": {
     "result": [
       { "darts": 24,
+        "winner": true,
         "score": 835,
         "awards": { "hattrick": 1, "7mark": 2, "6mark": 2, "whitehorse": 1 },
         "stats": 5.63
@@ -91,6 +94,7 @@ vecs["301(normal)"] = {
   "exps": {
     "result": [
       { "darts": 6,
+        "winner": true,
         "score": 0,
         "awards": { "lowton": 1, "ton80": 1 },
         "stats": 50.17
@@ -112,6 +116,7 @@ vecs["301(bust)"] = {
   "exps": {
     "result": [
       { "darts": 10,
+        "winner": true,
         "score": 0,
         "awards": { "black": 2 },
         "stats": 30.10
@@ -133,6 +138,7 @@ vecs["301(master_out)"] = {
   "exps": {
     "result": [
       { "darts": 12,
+        "winner": true,
         "score": 0,
         "awards": { "lowton": 1, "black": 1 },
         "stats": 25.08
@@ -155,6 +161,7 @@ vecs["301(double_out0)"] = {
   "exps": {
     "result": [
       { "darts": 15,
+        "winner": true,
         "score": 0,
         "awards": { "lowton": 1, "black": 1 },
         "stats": 20.07
@@ -178,6 +185,7 @@ vecs["301(double_out1)"] = {
   "exps": {
     "result": [
       { "darts": 18,
+        "winner": true,
         "score": 0,
         "awards": { "lowton": 1, "black": 1 },
         "stats": 16.72
@@ -186,7 +194,7 @@ vecs["301(double_out1)"] = {
     }
 };
 
-vecs["1501a"] = {
+vecs["1501(short)"] = {
   "params": { "game": "z1501" },
   "darts": [
     [
@@ -204,9 +212,62 @@ vecs["1501a"] = {
   "exps": {
     "result": [
       { "darts": 26,
+        "winner": true,
         "score": 0,
         "awards": { "ton80": 8 },
         "stats": 57.73
+        },
+      ]
+    }
+};
+
+vecs["big_bull"] = {
+  "params": { "game": "big_bull" },
+  "darts": [
+    [
+      [ "IS01", "IS02", "IS03" ],
+      [ "IS04", "IS05", "IS06" ],
+      [ "IS07", "IS08", "IS09" ],
+      [ "IS10", "IS11", "IS12" ],
+      [ "IS13", "IS02", "IS15" ],
+      [ "IS16", "IS17", "IS18" ],
+      [ "SB",   "SB",   "SB"   ],
+      [ "DB",   "DB",   "DB"   ],
+      ],
+    ],
+  "exps": {
+    "result": [
+      { "darts": 24,
+        "winner": true,
+        "score": 1260,
+        "awards": { "hattrick": 6, "black": 2 },
+        "stats": 52.50
+        },
+      ]
+    }
+};
+
+vecs["bull_shoot"] = {
+  "params": { "game": "bull_shoot" },
+  "darts": [
+    [
+      [ "DB",   "DB",   "SB" ],
+      [ "SB",   "IS05", "IS06" ],
+      [ "IS07", "IS01", "IS09" ],
+      [ "IS10", "IS11", "SB"   ],
+      [ "DB",   "IS02", "DB"   ],
+      [ "SB",   "DB"  , "SB" ],
+      [ "SB",   "SB",   "SB"   ],
+      [ "DB",   "DB",   "DB"   ],
+      ],
+    ],
+  "exps": {
+    "result": [
+      { "darts": 24,
+        "winner": true,
+        "score": 600,
+        "awards": { "hattrick": 3, "lowton": 1, "black": 1 },
+        "stats": 25.00
         },
       ]
     }
@@ -245,14 +306,119 @@ vecs["yamaguchi_a"] = {
   "exps": {
     "result": [
       { "darts": 31,
+        "winner": true,
         "score": "100.0 %",
         "awards": { "hattrick": 1, "ton80": 1, "black": 1, "bed": 1, "7mark": 6 },
         "stats": 6.77
         },
       { "darts": 30,
+        "winner": false,
         "score": "98.6 %",
         "awards": { "hattrick": 1, "ton80": 1, "black": 1, "bed": 1, "7mark": 6 },
         "stats": 6.90 }
+      ]
+    }
+};
+
+vecs["yamaguchi_b"] = {
+  "params": { "game": "yamaguchi_b" },
+  "darts": [
+    [
+      [ "IS20", "IS20", "T20" ],
+      [ "IS19", "IS19", "T19" ],
+      [ "T18",  "T17",  "T16" ],
+      [ "IS15", "IS15", "IS15" ],
+      [ "T15",  "T17",  "T17" ],
+      [ "SB",   "DB" ],
+      ],
+    [
+      [ "IS20", "IS20", "T20" ],
+      [ "IS19", "IS19", "T19" ],
+      [ "T18",  "T17",  "T16" ],
+      [ "IS15", "IS15", "IS15" ],
+      [ "T15",  "T17",  "T17" ],
+      [ "SB",   "SB",   "SB"  ],
+      ]
+    ],
+  "exps": {
+    "result": [
+      { "darts": 17,
+        "winner": true,
+        "score": "100.0 %",
+        "awards": { "whitehorse": 1 },
+        "stats": 3.71
+        },
+      { "darts": 15,
+        "winner": false,
+        "score": "85.7 %",
+        "awards": { "whitehorse": 1 },
+        "stats": 3.60 }
+      ]
+    }
+};
+
+vecs["yamaguchi_c"] = {
+  "params": { "game": "yamaguchi_c" },
+  "darts": [
+    [
+      [ "SB",   "SB",   "T20" ],
+      [ "T19",  "T18",  "D17" ],
+      [ "T16",  "T15",  "D20" ],
+      [ "T19",  "T18",  "D17" ],
+      [ "T16",  "T15",  "D20" ],
+      [ "T19",  "T18",  "D17" ],
+      [ "T16",  "T15",  "D20" ],
+      [ "T19",  "T18",  "D17" ],
+      [ "T16",  "T15",  "D20" ],
+      [ "T19",  "T18",  "T17" ],
+      [ "T16",  "T15",  "D20" ],
+      [ "T19",  "T18",  "D17" ],
+      [ "T16",  "T15",  "D20" ],
+      [ "T19",  "T18",  "D17" ],
+      [ "T16",  "T15",  "D20" ],
+      [ "T19",  "T18",  "D17" ],
+      [ "T16",  "T15",  "D20" ],
+      [ "T19",  "T18",  "D17" ],
+      [ "T16",  "T15",  "D20" ],
+      [ "SB",   "SB",   "DB"  ],
+      ],
+    [
+      [ "SB",   "SB",   "T20" ],
+      [ "T19",  "T18",  "T17" ],
+      [ "T16",  "T15",  "T20" ],
+      [ "T19",  "T18",  "T17" ],
+      [ "T16",  "T15",  "T20" ],
+      [ "T19",  "T18",  "T17" ],
+      [ "T16",  "T15",  "T20" ],
+      [ "T19",  "T18",  "T17" ],
+      [ "T16",  "T15",  "T20" ],
+      [ "T19",  "T18",  "T17" ],
+      [ "T16",  "T15",  "T20" ],
+      [ "T19",  "T18",  "T17" ],
+      [ "T16",  "T15",  "T20" ],
+      [ "T19",  "T18",  "T17" ],
+      [ "T16",  "T15",  "T20" ],
+      [ "T19",  "T18",  "T17" ],
+      [ "T16",  "T15",  "T20" ],
+      [ "T19",  "T18",  "T17" ],
+      [ "T16",  "T15",  "T20" ],
+      [ "SB",   "SB",   "DB"  ],
+      ],
+    ],
+  "exps": {
+    "result": [
+      { "darts": 60,
+        "winner": false,
+        "score": 1,
+        "awards": { "8mark": 17, "5mark": 1, "whitehorse": 1 },
+        "stats": 7.50
+        },
+      { "darts": 60,
+        "winner": true,
+        "score": 18,
+        "awards": { "5mark": 1, "whitehorse": 18 },
+        "stats": 8.35
+        }
       ]
     }
 };

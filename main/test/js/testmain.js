@@ -99,8 +99,16 @@ class Test {
           errors.push("  - [DIFF(" + id + ")] result(" + key + ") is differ from exp.\n" +
                       "              { exp: " + exp_str + ", dut: " + val_str + " }");
         }
+      }else if( key == "winner" ){
+        exp = rhash[key];
+        local_cond = ( exp ? value != "" : value == "");
+        cond = cond && local_cond;
+        if( !local_cond ){
+          errors.push("  - [DIFF(" + id + ")] result(" + key + ") is differ from exp.\n" +
+                      "              { exp: " + exp + ", dut: " + value + " }");
+        }
       }else{
-        exp   = rhash[key];
+        exp = rhash[key];
         local_cond = (value == exp);
         cond = cond && local_cond;
         if( !local_cond ){
@@ -138,13 +146,15 @@ class Test {
 }
 
 window.onload = async function(){
+  // vecs = [ vecs["count_up"] ];
   for( let v in vecs ){
     test  = new Test( vecs[v] );
     await test.initialize();
     check = await test.test_game();
-    console.log( "[vec:" + v + "] " + (check["result"] ? "OK" : "NG") );
+    console.log( "[vec:" + v.paddingleft(" ",20) + "] " + (check["result"] ? "OK" : "NG") );
     if( !check["result"] ){
       console.log(check["errors"].join("\n"));
     }
   }
+
 }

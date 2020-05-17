@@ -1,3 +1,9 @@
+String.prototype.paddingleft = function(char,n){
+ var leftval = "";
+ for(;leftval.length < n;leftval+=char);
+ return (leftval+this.toString()).slice(-n);
+}
+
 class Y {
   static id(id)        { return document.getElementById(id); }
 
