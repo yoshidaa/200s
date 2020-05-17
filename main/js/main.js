@@ -73,7 +73,7 @@ class SystemManager {
   constructor(){
     this.mutex_keypress = 0;
     this.change_player();
-    this.wait_award_ended = false;
+    this.key_input_disabled = false;
   }
 
   async change_player(){
@@ -119,12 +119,14 @@ class SystemManager {
   }
 
   async bust(){
+    this.key_input_disabled = true;
     media_mg.play_sound("bust");
     Y.show("board_bust");
     await sleep(2000);
     Y.hide("board_bust");
     game_mg.recalc();
     panel_mg.update( game_mg );
+    this.key_input_disabled = false;
     Y.show("board_change");
   }
 
@@ -133,7 +135,7 @@ class SystemManager {
     panel_mg.update( game_mg );
     if( award_name != null ){
       if( Y.id( "award_" + award_name ).tagName != "VIDEO" ){
-        this.wait_award_ended = true ;
+        this.key_input_disabled = true ;
       }
       media_mg.play_award( award_name );
       Y.show( media_mg.playing_award );
@@ -142,7 +144,7 @@ class SystemManager {
   }
 
   stop_award(){
-    this.wait_award_ended = false;
+    this.key_input_disabled = false;
     Y.hide( media_mg.playing_award );
     media_mg.stop_award();
     if( this.check_end() ){
@@ -183,16 +185,16 @@ class SystemManager {
   }
 
   async input_handling( key ){
-    if( this.mutex_keypress == 0 && !this.wait_award_ended && !Y.is_shown("board_menu") ){
+    if( this.mutex_keypress == 0 && !this.key_input_disabled && !Y.is_shown("board_menu") ){
       this.mutex_keypress = 1;
       var changed = ( key == 'CH' );
       if( changed ){
         if( media_mg.playing_award != null ){ this.stop_award(); }
         else if( game_mg.current_player.thrown_darts < 3 ){
           game_mg.current_player.finish_round();
-          this.wait_award_ended = this.play_award();
+          this.key_input_disabled = this.play_award();
         }
-        while( this.wait_award_ended ){ await sleep(10); }
+        while( this.key_input_disabled ){ await sleep(10); }
         if( this.check_end( changed ) ){
           this.game_over();
           return ;
@@ -206,8 +208,8 @@ class SystemManager {
           this.bust();
         }else if( this.check_end( changed ) ){
           game_mg.current_player.finish_round();
-          this.wait_award_ended = this.play_award();
-          if( this.wait_award_ended == false ){ this.game_over(); }
+          this.key_input_disabled = this.play_award();
+          if( this.key_input_disabled == false ){ this.game_over(); }
           return ;
         }else if( game_mg.current_player.thrown_darts == 3 ){
           game_mg.current_player.finish_round();
