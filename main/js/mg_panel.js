@@ -104,9 +104,6 @@ class PanelManager {
   }
 
   update( game_mg, latest=false ){
-    for( var i = 0 ; i < game_mg.players.length ; i++ ){
-      game_mg.players[i].recalc();
-    }
     this.update_wallpaper( game_mg );
     this.update_game_message( game_mg );
     this.update_dart_history( game_mg, latest );

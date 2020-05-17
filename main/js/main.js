@@ -321,3 +321,8 @@ window.onload = function() {
   Y.show("board_main");
   Y.id('board_loading').classList.add('loaded');
 }
+
+// For Test
+var board_mg  = BoardManager;
+var y         = Y;
+var g         = GameManager;

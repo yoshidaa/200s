@@ -114,15 +114,23 @@ class Player {
   get initial_marks()     { return { "20": 0, "19": 0, "18": 0, "17": 0, "16": 0, "15": 0, "BULL": 0 }; }
   get current_marks()     { return this.darts_to_marks( this.current_round_data["darts"] ); }
   get latest_dart()       {
-    if( this.current_round_data["darts"][this.thrown_darts - 1] ){
-      return this.current_round_data["darts"][this.thrown_darts - 1]["area"];
+    var darts = this.current_round_data["darts"];
+    if( darts[darts.length - 1] ){
+      return darts[darts.length - 1]["area"];
     }else{
       return "";
     }
   }
   get is_bust()           {
     if( this.category == "zeroone" ){
-      return ( ( this.total_score < 0 ) || ( this.total_score == 1 && this.options["out"] != "OPEN" ) );
+      var bust = ( this.total_score < 0 );
+      // when 1 and not OPEN out
+      bust = bust || ( this.total_score == 1 && this.options["out"] != "OPEN" );
+      // when 0 and MASTER out
+      bust = bust || ( this.total_score == 0 && ( this.options["out"] == "MASTER" && Area.is_S( this.latest_dart ) ) );
+      // when 0 and DOUBLE out
+      bust = bust || ( this.total_score == 0 && ( this.options["out"] == "DOUBLE" && !( Area.is_D( this.latest_dart ) || Area.is_DB( this.latest_dart ) ) ) );
+      return bust;
     }
     return false;
   }
