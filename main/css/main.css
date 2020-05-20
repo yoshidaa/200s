@@ -47,6 +47,22 @@ div.board p.message{
 td span.round{ font-size: 50px; line-height: 50px; }
 span.little_strong{ color: #ff6; }
 span.percent{ font-size: xx-large; margin: 0; line-height: 0; }
+
+td.crown{
+  height: 45px;
+  background-image: url("../img/mark_oukan_crown1_gold.png");
+  background-size: 80px 56px;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+tr#tr_result_winner span{
+  display: inline-block;
+  font-size: 25px;
+  text-shadow: 3px 3px 3px #336;
+  transform: rotate(-15deg);
+}
+
 img.crown{ width: 60px; margin: 0; line-height: 0; }
 img.mini_crown{ height: 28px; margin: 0; line-height: 0; }
 img.mini_mark{ width: 32px; height: 32px; margin: 0 3px; }
@@ -173,7 +189,7 @@ div#board_nmark td   { border: 0; padding: 0; margin: 0; background-color: trans
 
 div#board_result               { color: #ff0; background-color: #000; opacity: 0.95; z-index: 2; }
 div#board_result p             { font-size: 70px; text-align: center; color: #ccc; }
-/* div#board_result              { visibility: visible } */
+/* div#board_result               { visibility: visible } */
 
 table#panel_result             { width: 60%; left: 20%; height: 40%;  bottom: 30%; }
 tr#tr_result_awards   td.score { font-size: medium; color: #ccc; padding-left: 5px; text-align: left; }

@@ -235,7 +235,14 @@ class PanelManager {
       var td_awards = Y.id("result_player"+i+"awards");
       Y.id("result_stats_title").innerHTML = game_mg.stats_type ;
 
-      td_winner.innerHTML = game_mg.is_top_score(i-1) ? Y.t_img(img_crown, {"class": "crown"}) : "";
+      // td_winner.innerHTML = game_mg.is_top_score(i-1) ? Y.t_img(img_crown, {"class": "crown"}) : "";
+      var over_type = game_mg.players[i-1].over_type;
+      td_winner.className = game_mg.is_top_score(i-1) ? "crown" : "";
+      if( over_type == "BOOO" || over_type == "NORMAL" ){
+        td_winner.innerHTML = "";
+      }else{
+        td_winner.innerHTML = Y.t_span( over_type );
+      }
       td_darts.innerHTML = game_mg.players[i-1].total_thrown_darts;
       td_score.innerHTML = ( score == -1 ) ? "No Score" : score;
       if( game_mg.players[i-1].score_mode == "total_marks_percent" )

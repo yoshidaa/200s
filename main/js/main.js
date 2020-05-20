@@ -147,7 +147,8 @@ class SystemManager {
     this.key_input_disabled = false;
     Y.hide( media_mg.playing_award );
     media_mg.stop_award();
-    if( this.check_end() ){
+    var is_game_finished = this.check_end();
+    if( is_game_finished ){
       this.game_over();
     }else{
       Y.show("board_change");
@@ -157,7 +158,15 @@ class SystemManager {
   }
 
   game_over(){
-    media_mg.play_sound("out");
+    var over_type = game_mg.over_type;
+    if( over_type == "BOOO" ){
+      media_mg.play_sound("game_out_booo");
+    }else if( over_type == "NORMAL" ){
+      media_mg.play_sound("game_out_normal");
+    }else{
+      media_mg.play_sound("game_out_good");
+    }
+    // common
     game_mg.recalc();
     panel_mg.update( game_mg );
     Y.show("board_result");
@@ -195,21 +204,27 @@ class SystemManager {
           this.key_input_disabled = this.play_award();
         }
         while( this.key_input_disabled ){ await sleep(10); }
-        if( this.check_end( changed ) ){
+        var is_game_finished = this.check_end( changed );
+        if( is_game_finished ){
           this.game_over();
           return ;
         }
         this.change_player();
       }else if( ( media_mg.playing_award == null ) && ( !Y.is_shown("board_change") ) ){
-        if ( game_mg.current_player.thrown_darts < 3 ){ this.dart_update( key ); }
+        if ( game_mg.current_player.thrown_darts < 3 ){
+          this.dart_update( key );
+        }
         await sleep(700);
+        var is_game_finished = this.check_end( changed );
         if( game_mg.current_player.is_bust ){
           game_mg.current_player.finish_round();
           this.bust();
-        }else if( this.check_end( changed ) ){
+        }else if( is_game_finished ){
           game_mg.current_player.finish_round();
           this.key_input_disabled = this.play_award();
-          if( this.key_input_disabled == false ){ this.game_over(); }
+          if( this.key_input_disabled == false ){
+            this.game_over();
+          }
           return ;
         }else if( game_mg.current_player.thrown_darts == 3 ){
           game_mg.current_player.finish_round();
@@ -219,7 +234,6 @@ class SystemManager {
           }
         }
       }
-      panel_mg.update( game_mg );
       await sleep(700);
       this.mutex_keypress = 0;
     }
