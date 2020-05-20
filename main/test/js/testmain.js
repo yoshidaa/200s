@@ -2,7 +2,7 @@ var sleep = function(ms){ return new Promise(resolve => setTimeout(resolve, ms))
 
 class Test {
   constructor( vec ){
-    var url         = "/dartslive200s/main/index.html?";
+    var url         = "../index.html?";
     this.num_players = vec["darts"].length;
     var params      = [ "players=" + this.num_players ];
     for( let k in vec["params"] ){
