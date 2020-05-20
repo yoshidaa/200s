@@ -384,27 +384,28 @@ class Player {
       else if( this.total_score >= 200 ){ type = "GOOD!"; }
       else                              { type = "NORMAL"; }
     }else if( this.game == "yamaguchi_c" ){
-      if(      this.total_score >= 4 ){ type = "WONDERFUL!"; }
-      else if( this.total_score == 3 ){ type = "EXCELLENT!"; }
+      if(      this.total_score >= 4 ){ type = "WONDERFUL!!"; }
+      else if( this.total_score == 3 ){ type = "EXCELLENT!!"; }
       else if( this.total_score == 2 ){ type = "GREAT!"; }
       else if( this.total_score == 1 ){ type = "GOOD!"; }
       else if( this.total_score == 0 ){ type = "NORMAL"; }
       else                            { type = "BOOO"; }
     }else if( this.stats_type == "PPD" ){
       // calc from total score of count up (in PHOENIXDARTS)
-      if(      this.total_stats >= ( 900.0 / this.total_thrown_darts ) ){ type = "WONDERFUL!!"; }
-      else if( this.total_stats >= ( 700.0 / this.total_thrown_darts ) ){ type = "EXCELLENT!!"; }
-      else if( this.total_stats >= ( 600.0 / this.total_thrown_darts ) ){ type = "GREAT!"; }
-      else if( this.total_stats >= ( 500.0 / this.total_thrown_darts ) ){ type = "GOOD!"; }
-      else if( this.total_stats >= ( 300.0 / this.total_thrown_darts ) ){ type = "NORMAL"; }
-      else                                                              { type = "BOOO"; }
+      if(      this.total_stats >= ( 900.0 / 24 ) ){ type = "WONDERFUL!!"; }
+      else if( this.total_stats >= ( 700.0 / 24 ) ){ type = "EXCELLENT!!"; }
+      else if( this.total_stats >= ( 600.0 / 24 ) ){ type = "GREAT!"; }
+      else if( this.total_stats >= ( 500.0 / 24 ) ){ type = "GOOD!"; }
+      else if( this.total_stats >= ( 300.0 / 24 ) ){ type = "NORMAL"; }
+      else                                         { type = "BOOO"; }
     }else if( this.stats_type == "MPR" ){
       // calc from CLASS of PHOENIXDARTS
-      if(      this.total_stats >= 4.70 ){ type = "WONDERFUL"; } // CLASS MASTER
-      else if( this.total_stats >= 3.86 ){ type = "EXCELLENT"; } // CLASS AAA
-      else if( this.total_stats >= 3.11 ){ type = "GREAT"; }     // CLASS AA
-      else if( this.total_stats >= 2.81 ){ type = "GOOD"; }      // CLASS A
-      else                               { type = "NORMAL"; }
+      if(      this.total_stats >= 4.70 ){ type = "WONDERFUL!!"; } // CLASS MASTER
+      else if( this.total_stats >= 3.86 ){ type = "EXCELLENT!!"; } // CLASS AAA
+      else if( this.total_stats >= 3.11 ){ type = "GREAT!"; }      // CLASS AA
+      else if( this.total_stats >= 2.81 ){ type = "GOOD!"; }       // CLASS A
+      else if( this.total_stats >= 1.00 ){ type = "NORMAL"; }
+      else                               { type = "BOOO"; }
     }
 
     return type;

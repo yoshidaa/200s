@@ -100,12 +100,14 @@ class Test {
                       "              { exp: " + exp_str + ", dut: " + val_str + " }");
         }
       }else if( key == "winner" ){
+        var className = this.main.y.id(val_id).className;
         exp = rhash[key];
-        local_cond = ( exp ? value != "" : value == "");
+        local_cond = ( ( exp["win"] && className == "crown" ) || ( !exp["win"] && className == "" ) );
+        local_cond = local_cond && ( value == exp["value"] );
         cond = cond && local_cond;
         if( !local_cond ){
           errors.push("  - [DIFF(" + id + ")] result(" + key + ") is differ from exp.\n" +
-                      "              { exp: " + exp + ", dut: " + value + " }");
+                      "              { exp: " + exp + ", dut: " + className + "/" + value + " }");
         }
       }else{
         exp = rhash[key];
@@ -146,7 +148,7 @@ class Test {
 }
 
 window.onload = async function(){
-  // vecs = [ vecs["count_up"] ];
+  // vecs = [ vecs["301(normal)"] ];
   for( let v in vecs ){
     test  = new Test( vecs[v] );
     await test.initialize();

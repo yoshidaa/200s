@@ -27,13 +27,13 @@ vecs["count_up"] = {
   "exps": {
     "result": [
       { "darts": 24,
-        "winner": true,
+        "winner": { win: true, value: "<span>WONDERFUL!!</span>" },
         "score": 1050,
         "awards": { "lowton": 6, "highton": 1, "ton80": 1 },
         "stats": 43.75
         },
       { "darts": 24,
-        "winner": true,
+        "winner": { win: true, value: "<span>WONDERFUL!!</span>" },
         "score": 1050,
         "awards": { "lowton": 6, "highton": 1, "ton80": 1 },
         "stats": 43.75
@@ -69,13 +69,13 @@ vecs["cr_count_up"] = {
   "exps": {
     "result": [
       { "darts": 24,
-        "winner": true,
+        "winner": { win: true, value: "<span>WONDERFUL!!</span>" },
         "score": 835,
         "awards": { "hattrick": 1, "7mark": 2, "6mark": 2, "whitehorse": 1 },
         "stats": 5.63
         },
       { "darts": 24,
-        "score": 453,
+        "winner": { win: false, value: "<span>GREAT!</span>" },
         "awards": { "ton80": 1, "7mark": 1, "6mark": 1 },
         "stats": 3.13
         }
@@ -94,7 +94,7 @@ vecs["301(normal)"] = {
   "exps": {
     "result": [
       { "darts": 6,
-        "winner": true,
+        "winner": { win: true, value: "<span>WONDERFUL!!</span>" },
         "score": 0,
         "awards": { "lowton": 1, "ton80": 1 },
         "stats": 50.17
@@ -116,7 +116,7 @@ vecs["301(bust)"] = {
   "exps": {
     "result": [
       { "darts": 10,
-        "winner": true,
+        "winner": { win: true, value: "<span>EXCELLENT!!</span>" },
         "score": 0,
         "awards": { "black": 2 },
         "stats": 30.10
@@ -138,7 +138,7 @@ vecs["301(master_out)"] = {
   "exps": {
     "result": [
       { "darts": 12,
-        "winner": true,
+        "winner": { win: true, value: "<span>GREAT!</span>" },
         "score": 0,
         "awards": { "lowton": 1, "black": 1 },
         "stats": 25.08
@@ -161,7 +161,7 @@ vecs["301(double_out0)"] = {
   "exps": {
     "result": [
       { "darts": 15,
-        "winner": true,
+        "winner": { win: true, value: "" },
         "score": 0,
         "awards": { "lowton": 1, "black": 1 },
         "stats": 20.07
@@ -185,7 +185,7 @@ vecs["301(double_out1)"] = {
   "exps": {
     "result": [
       { "darts": 18,
-        "winner": true,
+        "winner": { win: true, value: "" },
         "score": 0,
         "awards": { "lowton": 1, "black": 1 },
         "stats": 16.72
@@ -212,7 +212,7 @@ vecs["1501(short)"] = {
   "exps": {
     "result": [
       { "darts": 26,
-        "winner": true,
+        "winner": { win: true, value: "<span>WONDERFUL!!</span>" },
         "score": 0,
         "awards": { "ton80": 8 },
         "stats": 57.73
@@ -238,7 +238,7 @@ vecs["big_bull"] = {
   "exps": {
     "result": [
       { "darts": 24,
-        "winner": true,
+        "winner": { win: true, value: "<span>WONDERFUL!!</span>" },
         "score": 1260,
         "awards": { "hattrick": 6, "black": 2 },
         "stats": 52.50
@@ -264,7 +264,7 @@ vecs["bull_shoot"] = {
   "exps": {
     "result": [
       { "darts": 24,
-        "winner": true,
+        "winner": { win: true, value: "<span>WONDERFUL!!</span>" },
         "score": 600,
         "awards": { "hattrick": 3, "lowton": 1, "black": 1 },
         "stats": 25.00
@@ -306,13 +306,13 @@ vecs["yamaguchi_a"] = {
   "exps": {
     "result": [
       { "darts": 31,
-        "winner": true,
+        "winner": { win: true, value: "<span>WONDERFUL!!</span>" },
         "score": "100.0 %",
         "awards": { "hattrick": 1, "ton80": 1, "black": 1, "bed": 1, "7mark": 6 },
         "stats": 6.77
         },
       { "darts": 30,
-        "winner": false,
+        "winner": { win: false, value: "<span>WONDERFUL!!</span>" },
         "score": "98.6 %",
         "awards": { "hattrick": 1, "ton80": 1, "black": 1, "bed": 1, "7mark": 6 },
         "stats": 6.90 }
@@ -343,13 +343,13 @@ vecs["yamaguchi_b"] = {
   "exps": {
     "result": [
       { "darts": 17,
-        "winner": true,
+        "winner": { win: true, value: "<span>GREAT!</span>" },
         "score": "100.0 %",
         "awards": { "whitehorse": 1 },
         "stats": 3.71
         },
       { "darts": 15,
-        "winner": false,
+        "winner": { win: false, value: "<span>GREAT!</span>" },
         "score": "85.7 %",
         "awards": { "whitehorse": 1 },
         "stats": 3.60 }
@@ -408,13 +408,13 @@ vecs["yamaguchi_c"] = {
   "exps": {
     "result": [
       { "darts": 60,
-        "winner": false,
+        "winner": { win: false, value: "<span>GOOD!</span>" },
         "score": 1,
         "awards": { "8mark": 17, "5mark": 1, "whitehorse": 1 },
         "stats": 7.50
         },
       { "darts": 60,
-        "winner": true,
+        "winner": { win: true, value: "<span>WONDERFUL!!</span>" },
         "score": 18,
         "awards": { "5mark": 1, "whitehorse": 18 },
         "stats": 8.35
