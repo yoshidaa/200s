@@ -4,6 +4,7 @@ var configurable = false;
 
 function start_config(){
   document.getElementById("panel_main").style.display = "block";
+  Cookies.remove("boardmap");
   count = 0;
   configurable = true;
 }

@@ -207,7 +207,10 @@ div#panel_result_control input {
   font-size: 30px;
 }
 
-
+div#panel_result_control input:active{
+  background: #333;
+  color: #ccc;
+}
 
 /* -----------------------------------------------------------------
  *  Board - Menu - Root
@@ -323,17 +326,17 @@ table#panel_game_option tr        td      { height: 30%; font-size: xx-large;}
  *  Board - Message Boards
  * 
  * -------------------------------------------------------------- */
-div#board_change   { color: #ccc; background-color: #000; opacity: 0.95;  z-index: 1; }
-div#board_change p { height: 200px; font-size: 70px; }
+div#board_change   { color: #ccc; background-color: #000; opacity: 0.60;  z-index: 1; }
+div#board_change p { height: 200px; font-size: 120px; }
 
-div#board_remove   { color: #ccc; background-color: #000; opacity: 0.95;  z-index: 1; }
+div#board_remove   { color: #ccc; background-color: #000; opacity: 0.80;  z-index: 1; }
 div#board_remove p { height: 200px; font-size: 90px; }
 
-div#board_round    { color: #fff; background-color: #000; opacity: 0.95;  z-index: 1; }
+div#board_round    { color: #fff; background-color: #000; opacity: 0.80;  z-index: 1; }
 div#board_round  p { height: 300px; font-size: 150px; }
 
-div#board_next     { color: #fff; background-color: #000; opacity: 0.95;  z-index: 1; }
+div#board_next     { color: #fff; background-color: #000; opacity: 0.80;  z-index: 1; }
 div#board_next   p { height: 300px; font-size: 70px; }
 
-div#board_bust     { color: #0cf; background-color: #000; opacity: 0.95;  z-index: 1; }
+div#board_bust     { color: #0cf; background-color: #000; opacity: 0.80;  z-index: 1; }
 div#board_bust   p { height: 100%; margin-left: -10%; font-size: 700px; text-shadow: 10px 10px 20px #336; transform: rotate(-25deg); }
