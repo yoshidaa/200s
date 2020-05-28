@@ -18,9 +18,12 @@ function load_media(){
   document.getElementById("sound_single" ).innerHTML = '<source src="/200s_media/sound/single.mp3">';
   document.getElementById("sound_double" ).innerHTML = '<source src="/200s_media/sound/double.mp3">';
   document.getElementById("sound_triple" ).innerHTML = '<source src="/200s_media/sound/triple.mp3">';
-  document.getElementById("sound_game_out_booo"  ).innerHTML = '<source src="/200s_media/sound/game_out_booo.mp3">';
-  document.getElementById("sound_game_out_normal").innerHTML = '<source src="/200s_media/sound/game_out_normal.mp3">';
-  document.getElementById("sound_game_out_good"  ).innerHTML = '<source src="/200s_media/sound/game_out_good.mp3">';
+  document.getElementById("sound_game_out_booo"     ).innerHTML = '<source src="/200s_media/sound/game_out_booo.mp3">';
+  document.getElementById("sound_game_out_normal"   ).innerHTML = '<source src="/200s_media/sound/game_out_normal.mp3">';
+  document.getElementById("sound_game_out_good"     ).innerHTML = '<source src="/200s_media/sound/game_out_good.mp3">';
+  document.getElementById("sound_game_out_great"    ).innerHTML = '<source src="/200s_media/sound/game_out_great.mp3">';
+  document.getElementById("sound_game_out_excellent").innerHTML = '<source src="/200s_media/sound/game_out_excellent.mp3">';
+  document.getElementById("sound_game_out_wonderful").innerHTML = '<source src="/200s_media/sound/game_out_wonderful.mp3">';
 
   // awards
   document.getElementById("award_lowton"    ).innerHTML  = '<source src="/200s_media/movie/lowton.mp4">     <source src="/200s_media/movie/error.mp4">';

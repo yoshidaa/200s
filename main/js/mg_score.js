@@ -375,40 +375,40 @@ class Player {
   }
 
   get over_type(){
-    var type = "NORMAL";
+    var types = [ "BOOO", "NORMAL", "GOOD!", "GREAT!", "EXCELLENT!!", "WONDERFUL!!" ]
+    var type  = 1; // NORMAL
 
     if( this.game == "bull_shoot" ){
-      if(      this.total_score >= 400 ){ type = "WONDERFUL!!"; }
-      else if( this.total_score >= 300 ){ type = "EXCELLENT!!"; }
-      else if( this.total_score >= 250 ){ type = "GREAT!"; }
-      else if( this.total_score >= 200 ){ type = "GOOD!"; }
-      else                              { type = "NORMAL"; }
+      if(      this.total_score >= 400 ){ type = 5; }
+      else if( this.total_score >= 300 ){ type = 4; }
+      else if( this.total_score >= 250 ){ type = 3; }
+      else if( this.total_score >= 200 ){ type = 2; }
     }else if( this.game == "yamaguchi_c" ){
-      if(      this.total_score >= 4 ){ type = "WONDERFUL!!"; }
-      else if( this.total_score == 3 ){ type = "EXCELLENT!!"; }
-      else if( this.total_score == 2 ){ type = "GREAT!"; }
-      else if( this.total_score == 1 ){ type = "GOOD!"; }
-      else if( this.total_score == 0 ){ type = "NORMAL"; }
-      else                            { type = "BOOO"; }
+      if(      this.total_score >= 4 ){ type = 5; }
+      else if( this.total_score == 3 ){ type = 4; }
+      else if( this.total_score == 2 ){ type = 3; }
+      else if( this.total_score == 1 ){ type = 2; }
+      else if( this.total_score == 0 ){ type = 1; }
+      else                            { type = 0; }
     }else if( this.stats_type == "PPD" ){
       // calc from total score of count up (in PHOENIXDARTS)
-      if(      this.total_stats >= ( 900.0 / 24 ) ){ type = "WONDERFUL!!"; }
-      else if( this.total_stats >= ( 700.0 / 24 ) ){ type = "EXCELLENT!!"; }
-      else if( this.total_stats >= ( 600.0 / 24 ) ){ type = "GREAT!"; }
-      else if( this.total_stats >= ( 500.0 / 24 ) ){ type = "GOOD!"; }
-      else if( this.total_stats >= ( 300.0 / 24 ) ){ type = "NORMAL"; }
-      else                                         { type = "BOOO"; }
+      if(      this.total_stats >= ( 900.0 / 24 ) ){ type = 5; }
+      else if( this.total_stats >= ( 700.0 / 24 ) ){ type = 4; }
+      else if( this.total_stats >= ( 600.0 / 24 ) ){ type = 3; }
+      else if( this.total_stats >= ( 500.0 / 24 ) ){ type = 2; }
+      else if( this.total_stats >= ( 300.0 / 24 ) ){ type = 1; }
+      else                                         { type = 0; }
     }else if( this.stats_type == "MPR" ){
       // calc from CLASS of PHOENIXDARTS
-      if(      this.total_stats >= 4.70 ){ type = "WONDERFUL!!"; } // CLASS MASTER
-      else if( this.total_stats >= 3.86 ){ type = "EXCELLENT!!"; } // CLASS AAA
-      else if( this.total_stats >= 3.11 ){ type = "GREAT!"; }      // CLASS AA
-      else if( this.total_stats >= 2.81 ){ type = "GOOD!"; }       // CLASS A
-      else if( this.total_stats >= 1.00 ){ type = "NORMAL"; }
-      else                               { type = "BOOO"; }
+      if(      this.total_stats >= 4.70 ){ type = 5; } // CLASS MASTER
+      else if( this.total_stats >= 3.86 ){ type = 4; } // CLASS AAA
+      else if( this.total_stats >= 3.11 ){ type = 3; }      // CLASS AA
+      else if( this.total_stats >= 2.81 ){ type = 2; }       // CLASS A
+      else if( this.total_stats >= 1.00 ){ type = 1; }
+      else                               { type = 0; }
     }
 
-    return type;
+    return { "type": types[type], "typeno": type };
   }
 
   finish_round(){

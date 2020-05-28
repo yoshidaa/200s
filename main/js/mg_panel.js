@@ -215,6 +215,12 @@ class PanelManager {
       var current = ( (i-1) == player.id );
       var score = game_mg.players[i-1].total_score;
 
+      // board_evaluation
+      if( game_mg.is_top_score(i-1) ){
+        Y.id("board_evaluation").innerHTML = "<p class=\"message\">[" + game_mg.over_type["type"] + "]</p>";
+        Y.id("board_evaluation").style.color = ft_colors[i-1];
+      }
+
       // board_main
       var td_score = Y.id("player"+i+"score");
       var td_title = Y.id("player"+i+"title");
@@ -238,10 +244,10 @@ class PanelManager {
       // td_winner.innerHTML = game_mg.is_top_score(i-1) ? Y.t_img(img_crown, {"class": "crown"}) : "";
       var over_type = game_mg.players[i-1].over_type;
       td_winner.className = game_mg.is_top_score(i-1) ? "crown" : "";
-      if( over_type == "BOOO" || over_type == "NORMAL" ){
+      if( over_type["typeno"] <= 1 ){
         td_winner.innerHTML = "";
       }else{
-        td_winner.innerHTML = Y.t_span( over_type );
+        td_winner.innerHTML = Y.t_span( over_type["type"] );
       }
       td_darts.innerHTML = game_mg.players[i-1].total_thrown_darts;
       td_score.innerHTML = ( score == -1 ) ? "No Score" : score;

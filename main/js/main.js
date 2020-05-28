@@ -72,6 +72,7 @@ class BoardManager {
 class SystemManager {
   constructor(){
     this.mutex_keypress = 0;
+    this.game_is_over = false;
     this.change_player();
     this.key_input_disabled = false;
   }
@@ -157,19 +158,22 @@ class SystemManager {
     Y.show("board_main");
   }
 
-  game_over(){
-    var over_type = game_mg.over_type;
-    if( over_type == "BOOO" ){
-      media_mg.play_sound("game_out_booo");
-    }else if( over_type == "NORMAL" ){
-      media_mg.play_sound("game_out_normal");
-    }else{
-      media_mg.play_sound("game_out_good");
-    }
-    // common
+  async game_over(){
     game_mg.recalc();
     panel_mg.update( game_mg );
+    var over_type = game_mg.over_type;
+    var type = over_type["type"].replace(/!/g,"").toLowerCase();
+    if( over_type["typeno"] >= 2 ){
+      Y.show("board_evaluation");
+      Y.id("board_evaluation").getElementsByTagName("p")[0].style.animation = "evaluation_in_" + type +" 0.8s"
+    }
+    media_mg.play_sound("game_out_" + type );
+    if( over_type["typeno"] >= 2 ){
+      await sleep(1200);
+      Y.hide("board_evaluation");
+    }
     Y.show("board_result");
+    this.game_is_over = true;
   }
 
   dart_unthrow(){
@@ -194,7 +198,9 @@ class SystemManager {
   }
 
   async input_handling( key ){
-    if( this.mutex_keypress == 0 && !this.key_input_disabled && !Y.is_shown("board_menu") ){
+    if( this.game_is_over && key == 'CH' ){
+      Y.id("button_retry").click();
+    }else if( this.mutex_keypress == 0 && !this.key_input_disabled && !Y.is_shown("board_menu") ){
       this.mutex_keypress = 1;
       var changed = ( key == 'CH' );
       if( changed ){
@@ -257,6 +263,8 @@ class SystemManager {
         params_prestr.push( pname + "=" + JSON.stringify( params[pname] ) );
       }
     });
+    // for force reload without cache
+    params_prestr.push( "datetime=" + ( new Date() ).getTime() );
     window.location.href = './index.html?' + params_prestr.join("&");
   }
 
